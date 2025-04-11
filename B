@@ -1,0 +1,39 @@
+
+#include <bits/stdc++.h>
+
+#define ll long long
+#define endl "\n"
+
+using namespace std;
+
+ll n, m, k;
+ll cnt=1;
+
+int main()
+{
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+
+    cin>>n>>k;
+
+    queue <ll> q;
+
+    for(ll i=1; i<=n; i++) q.push(i);
+
+    while(!q.empty())
+    {
+        ll temp=q.front();
+        q.pop();
+        if(cnt==k)
+        {
+            cout<<temp<<" ";
+            cnt=0;
+        }
+        else q.push(temp);
+        cnt++;
+
+    }
+
+    return 0;
+}
