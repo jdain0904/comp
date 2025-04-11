@@ -1,3 +1,4 @@
+
 #include <bits/stdc++.h>
 
 #define ll long long
@@ -5,7 +6,7 @@
 
 using namespace std;
 
-ll n, m, k
+ll n, m, k;
 ll dep;
 
 int main()
@@ -13,48 +14,32 @@ int main()
     ios_base::sync_with_stdio(0);
     cin.tie(0);
     cout.tie(0);
-    
+
     ll left=1, sz=0;
     cin>>n>>m>>k;
-    
-    while(n>0)
+     queue <ll> q;
+     q.push(0);
+
+    while(!q.empty())
     {
-        if(left<n) 
+        dep=q.front()+1;
+        q.pop();
+        if(n>0)
         {
-            dep++;
-            left*=2;
-            n-=left
-            sz=left;
+            q.push(dep);
+            q.push(dep);
+            n--;
         }
-        
-        else 
+        else if(m>0)
         {
-            left-=n;
-            break;
+            q.push(dep);
+            m--;
         }
+        else k--;
     }
-    
-     while(m>0)
-    {
-        if(left<=m) 
-        {
-            m-=left;
-            dep+=m/sz;
-            m%=sz;
-            left=sz-m;
-            break;
-        }
-        
-        else 
-        {
-            left-=m;
-            break;
-        }
-    }
-    
-    if()
-     
-     cout<<dep-1;
-    
+
+    if(k!=0) cout<<"impossible.";
+    else cout<<dep-1;
+
     return 0;
 }
