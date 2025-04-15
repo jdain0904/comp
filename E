@@ -1,0 +1,32 @@
+#include <bits/stdc++.h>
+
+#define ll long long
+#define endl "\n"
+
+using namespace std;
+
+ll n, m, k, flag;
+queue <ll> q;
+
+int main()
+{
+    ios_base::sync_with_stdio(false);
+    cin.tie(0);
+    cout.tie(0);
+
+    cin>>n>>m>>k;
+
+    q.push(1);
+
+    while(k--)
+    {
+        ll x=q.front();
+        q.pop();
+        q.push((x*n)%1000000007);
+        q.push((x*m)%1000000007);
+
+    }
+    cout<<q.front()%1000000007;
+
+    return 0;
+}
