@@ -1,0 +1,39 @@
+#include <bits/stdc++.h>
+
+#define ll long long
+#define endl "\n"
+
+using namespace std;
+
+ll m, n;
+queue <ll> q[101];
+
+int main()
+{
+    ios_base::sync_with_stdio(false);
+    cin.tie(0);
+    cout.tie(0);
+
+    cin>>n>>m;
+
+    for(ll i=0;i<n; i++)
+    {
+        ll temp;
+        cin>>temp;
+
+        q[temp].push(1+i);
+    }
+
+    for(ll i=1; i<=m; i++)
+    {
+        cout<<q[i].size()<<' ';
+        while(!q[i].empty())
+        {
+            cout<<q[i].front()<<' ';
+            q[i].pop();
+        }
+        cout<<endl;
+    }
+
+    return 0;
+}
