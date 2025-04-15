@@ -1,0 +1,55 @@
+#include <bits/stdc++.h>
+
+#define ll long long
+#define endl "\n"
+
+using namespace std;
+
+ll m, n, t, flag;
+queue <ll> q[21];
+vector <ll> v(21);
+
+int main()
+{
+    ios_base::sync_with_stdio(false);
+    cin.tie(0);
+    cout.tie(0);
+
+    cin>>n>>m;
+
+    for(ll k=0; k<m; k++)
+    {
+        ll customer;
+        cin>>customer;
+
+        ll flag=0;
+
+        while(1)
+        {
+            for(ll i=0; i<n; i++)
+            {
+                if(v[i]<=t)
+                {
+                    v[i]+=customer;
+                    q[i].push(k+1);
+                    flag=1;
+                    break;
+                }
+            }
+            if(flag==1) break;
+            t++;
+        }
+    }
+
+    for(ll i=0; i<n;i ++)
+    {
+        while(!q[i].empty())
+        {
+            cout<<q[i].front()<<' ';
+            q[i].pop();
+        }
+        cout<<endl;
+    }
+
+    return 0;
+}
