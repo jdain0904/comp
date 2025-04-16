@@ -1,0 +1,73 @@
+#include <bits/stdc++.h>
+
+#define ll long long
+#define endl "\n"
+
+using namespace std;
+
+ll h, w;
+vector <vector <char>> board;
+queue <pair<ll, ll>> q;
+vector <vector <ll>> visited;
+ll dx[4]={1, 0, -1, 0};
+ll dy[4]={0, 1, 0, -1};
+    pair <ll, ll> start, fin;
+
+void bfs(pair <ll, ll> start)
+{
+    q.push(start);
+    visited[start.first][start.second]=1;
+
+    while(!q.empty() )
+    {
+        pair <ll, ll> x=q.front();
+
+        q.pop();
+
+        if(x==fin)
+        {
+            cout<<visited[x.first][x.second]-1;
+            break;
+        }
+
+        for(ll i=0; i<4; i++)
+        {
+            pair <ll, ll> y={x.first+dy[i], x.second+dx[i]};
+
+            if(y.first<0 ||y.first>=h || y.second<0 || y.second>=w) continue;
+
+            if(board[y.first][y.second]!='#'&&visited[y.first][y.second]==0)
+            {
+                visited[y.first][y.second]=visited[x.first][x.second]+1;
+
+                q.push(y);
+            }
+        }
+    }
+}
+
+int main()
+{
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+
+    cin>>h>>w;
+    board.resize(h, vector <char>(w));
+    visited.resize(h, vector <ll>(w));
+
+    for(ll i=0; i<h; i++){
+        for(ll j=0; j<w; j++){
+            char c;
+            cin>>c;
+
+            if(c=='S') start={i, j};
+            if(c=='G') fin={i, j};
+            board[i][j]=c;
+        }
+    }
+
+    bfs(start);
+
+    return 0;
+}
