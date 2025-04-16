@@ -1,0 +1,64 @@
+#include <bits/stdc++.h>
+
+#define ll long long
+#define endl "\n"
+
+using namespace std;
+
+ll n, m;
+vector <ll> v;
+queue <ll> q;
+
+ll bfs(ll start)
+{
+    q.push(start);
+
+    while(!q.empty())
+    {
+        ll x=q.front();
+        q.pop();
+
+        ll y= x+1;
+        if(y==n+1) y=1;
+
+        if(y!=n+1&&v[y]>v[x]+1)
+        {
+            v[y]=v[x]+1;
+            q.push(y);
+        }
+
+        y=x-1;
+
+        if(y!=0&&v[y]>v[x]+1)
+        {
+            v[y]=v[x]+1;
+            q.push(y);
+        }
+    }
+}
+
+int main()
+{
+    ios_base::sync_with_stdio(false);
+    cin.tie(0);
+    cout.tie(0);
+
+    cin>>n>>m;
+    v.resize(n+1, INT_MAX);
+    while(m--)
+    {
+        ll temp;
+        cin>>temp;
+
+        v[temp]=1;
+    }
+
+    for(ll i=1; i<=n; i++)
+    {
+        if(v[i]==1) bfs(i);
+    }
+
+    for(ll i=1; i<=n; i++) cout<<v[i]<<' ';
+
+    return 0;
+}
