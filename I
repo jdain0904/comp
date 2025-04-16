@@ -1,0 +1,70 @@
+#include <bits/stdc++.h>
+#define ll long long
+#define endl "\n"
+
+using namespace std;
+
+ll n, m, x, y, flag;
+vector <vector <ll>> visited;
+
+
+ll dx[]={1, -1, 2, 2, 1, -1, 2, 2};
+ll dy[]={2, 2, 1, -1, 2, 2, 1, -1};
+
+void bfs(ll a, ll b)
+{
+    visited.clear();
+    visited.resize(n, vector <ll>(m, INT_MAX));
+
+    visited[x-1][y-1]=0;
+    pair <ll, ll> fin={a, b};
+    queue <pair <ll, ll>> q;
+    while(!q.empty())
+    {
+        pair <ll, ll> t=q.front();
+        q.pop();
+
+        if(t==fin)
+        {
+            cout<<visited[t.first][t.second]<<" ";
+            flag=1;
+            break;
+        }
+
+        for(ll i=0; i<8; i++)
+        {
+            pair <ll, ll> cord={t.first+dy[i], t.second+dx[i]};
+
+            if(visited[cord.first][cord.second]>visited[t.first][t.second]+1)
+            {
+                visited[cord.first][cord.second]=visited[t.first][t.second]+1;
+                q.push(cord);
+            }
+        }
+    }
+    if(flag==0) cout<<-1<<' ';
+    flag=0;
+
+
+}
+
+int main()
+{
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+
+    cin>>n>>m>>x>>y;
+
+
+
+    for(ll i=0; i<n; i++)
+    {
+        for(ll j=0; j<m; j++)
+        {
+            bfs(i, j);
+        }
+        cout<<endl;
+    }
+    return 0;
+}
