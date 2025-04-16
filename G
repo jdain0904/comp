@@ -1,0 +1,64 @@
+#include <bits/stdc++.h>
+
+#define ll long long
+#define endl "\n"
+
+using namespace std;
+
+ll n, m, k;
+vector <vector <ll>> v;
+ll dx[4]={1, 0, -1, 0};
+ll dy[4]={0, 1, 0, -1};
+queue <pair<ll, ll>> q;
+
+void bfs(pair <ll, ll> start)
+{
+    q.push(start);
+
+    while(!q.empty())
+    {
+        pair<ll, ll> x=q.front();
+        q.pop();
+
+        for(ll i=0; i<4; i++)
+        {
+            pair <ll, ll> y={x.first+dy[i], x.second+dx[i]};
+
+            if(y.first>n || y.second>m||y.first<=0||y.second<=0) continue;
+
+            if(v[y.first][y.second]>v[x.first][x.second]+1)
+            {
+                v[y.first][y.second]=v[x.first][x.second]+1;
+                q.push({y.first, y.second});
+            }
+        }
+    }
+}
+
+int main()
+{
+    ios_base::sync_with_stdio(false);
+    cin.tie(0);
+    cout.tie(0);
+
+    cin>>n>>m>>k;
+    v.resize(n+1, vector <ll>(m+1, INT_MAX));
+    while(k--)
+    {
+        ll a, b;
+        cin>>a>>b;
+        v[a][b]=1;
+    }
+
+    for(ll i=1; i<=n; i++)
+    {
+        for(ll j=1; j<=m; j++)if(v[i][j]==1) bfs({i, j});
+    }
+
+    for(ll i=1; i<=n; i++) {
+            for(ll j=1; j<=m; j++) cout<<v[i][j]<<' ';
+            cout<<endl;
+    }
+
+    return 0;
+}
