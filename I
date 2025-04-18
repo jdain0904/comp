@@ -4,48 +4,37 @@
 
 using namespace std;
 
-ll n, m, x, y, flag;
-vector <vector <ll>> visited;
+vector <vector<ll>> board;
+pair<ll, ll> cur;
+ll n, m;
+ll dx[]={2, 2, 1, -1, -2, -2, 1, -1};
+ll dy[]={1, -1, 2, 2, 1, -1, -2, -2};
 
-
-ll dx[]={1, -1, 2, 2, 1, -1, 2, 2};
-ll dy[]={2, 2, 1, -1, 2, 2, 1, -1};
-
-void bfs(ll a, ll b)
+void bfs()
 {
-    visited.clear();
-    visited.resize(n, vector <ll>(m, INT_MAX));
+    queue <pair<ll, ll>> q;
+    board[cur.first-1][cur.second-1]=0;
+    q.push({cur.first-1, cur.second-1});
 
-    visited[x-1][y-1]=0;
-    pair <ll, ll> fin={a, b};
-    queue <pair <ll, ll>> q;
     while(!q.empty())
     {
-        pair <ll, ll> t=q.front();
+        pair <ll, ll> k=q.front();
         q.pop();
 
-        if(t==fin)
-        {
-            cout<<visited[t.first][t.second]<<" ";
-            flag=1;
-            break;
-        }
 
-        for(ll i=0; i<8; i++)
-        {
-            pair <ll, ll> cord={t.first+dy[i], t.second+dx[i]};
 
-            if(visited[cord.first][cord.second]>visited[t.first][t.second]+1)
+        for(ll i=0;i <8; i++)
+        {
+            pair <ll, ll>next={k.first+dy[i], k.second+dx[i]};
+
+            if(next.first>=n||next.first<0||next.second>=m||next.second<0) continue;
+            if(board[next.first][next.second]>board[k.first][k.second]+1)
             {
-                visited[cord.first][cord.second]=visited[t.first][t.second]+1;
-                q.push(cord);
+                board[next.first][next.second]=board[k.first][k.second]+1;
+                q.push(next);
             }
         }
     }
-    if(flag==0) cout<<-1<<' ';
-    flag=0;
-
-
 }
 
 int main()
@@ -54,17 +43,22 @@ int main()
     cin.tie(0);
     cout.tie(0);
 
-    cin>>n>>m>>x>>y;
+    cin>>n>>m;
+    cin>>cur.first>>cur.second;
 
+    board.resize(n, vector<ll>(m, INT_MAX));
 
+    bfs();
 
     for(ll i=0; i<n; i++)
     {
         for(ll j=0; j<m; j++)
         {
-            bfs(i, j);
+            if(board[i][j]==INT_MAX) cout<<-1<<' ';
+            else cout<<board[i][j]<<' ';
         }
         cout<<endl;
     }
+
     return 0;
 }
