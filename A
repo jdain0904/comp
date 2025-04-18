@@ -1,0 +1,36 @@
+#include <bits/stdc++.h>
+#define ll long long
+#define endl "\n"
+
+using namespace std;
+
+ll h, n;
+vector <char> v;
+
+void f(ll num)
+{
+    if(num>=v.size()) return;
+    cout<<v[num]<<' ';
+    f(num*2);
+    f(num*2+1);
+}
+
+int main()
+{
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+
+    cin>>n;
+    v.push_back(' ');
+
+    for(ll i=0; i<n; i++)
+    {
+        char c;
+        cin>>c;
+        v.push_back(c);
+    }
+
+    f(1);
+    return 0;
+}
