@@ -1,0 +1,63 @@
+#include <bits/stdc++.h>
+#define ll long long
+#define endl "\n"
+
+using namespace std;
+
+vector <vector<ll>> board;
+pair<ll, ll> cur;
+ll n, m, lim;
+ll dx[]={2, 2, 1, -1, -2, -2, 1, -1};
+ll dy[]={1, -1, 2, 2, 1, -1, -2, -2};
+
+void bfs()
+{
+    queue <pair<ll, pair<ll, ll>>> q;
+    board[cur.first-1][cur.second-1]=0;
+    q.push({cur.first-1, {cur.second-1, 0}});
+
+    while(!q.empty())
+    {
+        pair <ll, pair<ll, ll>> k=q.front();
+        q.pop();
+
+        if(k.second.second>lim) return;
+
+
+        for(ll i=0;i <8; i++)
+        {
+            pair <ll, ll>next={k.first.first+dy[i], k.second.first+dx[i]};
+
+            if(next.first>=n||next.first<0||next.second>=m||next.second<0) continue;
+
+                board[next.first][next.second]=board[k.first][k.second]+1;
+                q.push({next.first, {next.second, k.second.second+1}});
+
+        }
+    }
+}
+
+int main()
+{
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+
+    cin>>n>>m>>lim;
+    cin>>cur.first>>cur.second;
+
+    board.resize(n, vector<ll>(m, INT_MAX));
+
+    bfs();
+
+    for(ll i=0; i<n; i++)
+    {
+        for(ll j=0; j<m; j++)
+        {
+            if(board[i][j]!=lim) cnt++;
+        }
+    }
+    cout<<cnt;
+
+    return 0;
+}
