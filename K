@@ -4,34 +4,39 @@
 
 using namespace std;
 
-vector <vector<ll>> board;
+vector <vector<vector <ll>>> board;
 pair<ll, ll> cur;
 ll n, m, lim;
+ll cnt;
 ll dx[]={2, 2, 1, -1, -2, -2, 1, -1};
 ll dy[]={1, -1, 2, 2, 1, -1, -2, -2};
 
-void bfs()
+void bfs(pair<ll, ll> tmp)
 {
     queue <pair<ll, pair<ll, ll>>> q;
-    board[cur.first-1][cur.second-1]=0;
-    q.push({cur.first-1, {cur.second-1, 0}});
+    q.push({tmp.first-1, {tmp.second-1, 0}});
 
     while(!q.empty())
     {
         pair <ll, pair<ll, ll>> k=q.front();
         q.pop();
 
-        if(k.second.second>lim) return;
-
+        if(k.second.second==lim) return;
+        ll asdf=k.second.second+1;
 
         for(ll i=0;i <8; i++)
         {
-            pair <ll, ll>next={k.first.first+dy[i], k.second.first+dx[i]};
+            pair <ll, ll>next={k.first+dy[i], k.second.first+dx[i]};
 
-            if(next.first>=n||next.first<0||next.second>=m||next.second<0) continue;
+            if((next.first-202)+cur.first>=n||(next.first-202)+cur.first<0||(next.second-202)+cur.second>=m||(next.second-202)+cur.second<0) continue;
 
-                board[next.first][next.second]=board[k.first][k.second]+1;
+            if(board[next.first][next.second][asdf%2]==0)
+            {
+                if(asdf%2==lim%2) cnt++;
+                board[next.first][next.second][asdf%2]=1;
                 q.push({next.first, {next.second, k.second.second+1}});
+            }
+
 
         }
     }
@@ -43,21 +48,15 @@ int main()
     cin.tie(0);
     cout.tie(0);
 
-    cin>>n>>m>>lim;
-    cin>>cur.first>>cur.second;
 
-    board.resize(n, vector<ll>(m, INT_MAX));
+    cin>>n>>m;
+    cin>>cur.first>>cur.second>>lim;
 
-    bfs();
+    board.resize(405, vector<vector<ll>>(405, vector <ll>(2, 0)));
 
-    for(ll i=0; i<n; i++)
-    {
-        for(ll j=0; j<m; j++)
-        {
-            if(board[i][j]!=lim) cnt++;
-        }
-    }
-    cout<<cnt;
+    bfs({202, 202});
+
+    cout<<n*m-cnt;
 
     return 0;
 }
