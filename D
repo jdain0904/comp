@@ -1,0 +1,75 @@
+#include <bits/stdc++.h>
+#define ll long long
+#define endl "\n"
+
+using namespace std;
+
+vector <string> v;
+set <string> tool={"+", "-", "*", "/"};
+string s;
+
+void mid(ll num)
+{
+    if(num>=v.size()) return;
+    if(tool.find(v[num])==tool.end())
+    {
+        if(num%2==0)
+        {
+
+            cout<<v[num];
+        }
+        else {
+            cout<<v[num];
+
+        }
+
+        return;
+
+    }
+    if(num*2<v.size())           cout<<'(';
+    mid(num*2);
+    cout<<v[num];
+    mid(num*2+1);
+    if(num*2+1<v.size())            cout<<')';
+}
+
+ll recur(ll num)
+{
+    if(num>=v.size()) return INT_MAX;
+    if(tool.find(v[num])==tool.end())
+    {
+        cout<<v[num]<<' ';
+        return stoll(v[num]);
+
+    }
+
+
+    ll a=recur(num*2);
+    ll b=recur(num*2+1);
+    cout<<v[num]<<' ';
+
+    if(b==INT_MAX) return a;
+    if(v[num]=="+") return a+b;
+    if(v[num]=="-") return a-b;
+    if(v[num]=="/") return a/b;
+    if(v[num]=="*") return a*b;
+
+}
+
+int main()
+{
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+    v.push_back("");
+
+    while(cin>>s) v.push_back(s);
+
+    mid(1);
+    cout<<endl;
+    ll ans=recur(1);
+    cout<<endl;
+    cout<<ans;
+
+    return 0;
+}
