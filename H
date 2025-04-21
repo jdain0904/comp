@@ -1,0 +1,50 @@
+#include <bits/stdc++.h>
+#define ll long long
+#define endl "\n"
+
+using namespace std;
+
+ll h, n, st=-1, seq;
+vector <ll> v;
+
+
+ll power(ll num, ll cnt)
+{
+    if(cnt==1) return num;
+
+    ll temp=power(num, cnt/2);
+
+    if(cnt%2==0) return temp*temp;
+    else return temp*temp*num;
+}
+
+int main()
+{
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+
+    cin>>h>>n;
+
+
+
+    while(n)
+    {
+        v.push_back(n%2);
+
+        if(n%2==1&&st!=-1) st=v.size();
+        n/=2;
+    }
+    v.resize(h+1);
+    reverse(v.begin(), v.end());
+
+    for(ll i=0; i<v.size()-st; i++)
+    {
+        seq*=2;
+        seq+=v[i];
+    }
+
+    cout<<power(2, v.size()-st)+seq;
+
+    return 0;
+}
