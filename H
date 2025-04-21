@@ -10,6 +10,7 @@ vector <ll> v;
 
 ll power(ll num, ll cnt)
 {
+    if(cnt==0) return 1;
     if(cnt==1) return num;
 
     ll temp=power(num, cnt/2);
@@ -32,11 +33,18 @@ int main()
     {
         v.push_back(n%2);
 
-        if(n%2==1&&st!=-1) st=v.size();
+
+        if(n%2==1&&st==-1) st=v.size();
         n/=2;
     }
+   // cout<<st<<endl;
     v.resize(h+1);
+
+
     reverse(v.begin(), v.end());
+
+   // for(ll tmp:v) cout<<tmp<<" ";
+  //  cout<<endl;
 
     for(ll i=0; i<v.size()-st; i++)
     {
