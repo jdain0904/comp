@@ -21,10 +21,11 @@ int main()
     {
         for(ll j=2; j<k+1; j++)
         {
-            for(ll a=1; a<i-1; i++)
+            for(ll a=1; a<i-1; a++)
             {
                 dp[i][j]+=dp[a][j-1]*dp[i-a-1][j-1];
-            } dp[i][j]%=9901;
+            } 
+            dp[i][j]%=9901;
         }
     }
    
