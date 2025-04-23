@@ -1,0 +1,32 @@
+#include <bits/stdc++.h>
+#define ll long long
+#define endl "\n"
+
+using namespace std;
+
+string mid, pre;
+ll idx;
+void dfs(ll s, ll e)
+{
+    if(s>e) return;
+    char nx=pre[idx++];
+    ll x=s;
+    for(;x<=e; x++) if(mid[x]==nx) break;
+
+    dfs(s, x-1);
+    dfs(x+1, e);
+    cout<<nx;
+}
+
+int main()
+{
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+
+    cin>>mid>>pre;
+
+    dfs(0, mid.size()-1);
+
+    return 0;
+}
