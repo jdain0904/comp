@@ -1,0 +1,62 @@
+#include <bits/stdc++.h>
+#define ll long long
+#define endl "\n"
+
+using namespace std;
+
+ll n;
+vector <ll> pre, post;
+ll ans=1;
+
+void solve(ll pre_l, ll pre_r, ll post_l, ll post_r)
+{
+    if(pre_l>=pre_r||post_l>=post_r) return;
+
+    if(pre[pre_l]!=post[post_r]){
+       ans=0;
+        return;}
+
+    if(pre[pre_l+1]==post[post_r-1]){
+        ans*=2;
+        solve(pre_l+1, pre_r, post_l, post_r-1);
+    }
+
+    else
+    {
+        ll idx=-1;
+        for(ll i=post_l; i<=post_r; i++){
+            if(post[i]==pre[pre_l+1]) idx=i;
+        }
+        solve(pre_l+1, pre_l+idx-post_l+1, post_l, idx);
+        solve(pre_l+idx-post_l+2, pre_r, idx+1, post_r-1);
+    }
+
+}
+
+int main()
+{
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+
+    ll n;
+    cin>>n;
+
+    for(ll i=0 ;i<n; i++)
+    {
+        ll temp;
+        cin>>temp;
+        pre.push_back(temp);
+    }
+
+    for(ll i=0 ;i<n; i++)
+    {
+        ll temp;
+        cin>>temp;
+        post.push_back(temp);
+    }
+
+    solve(0, pre.size()-1, 0, post.size()-1);
+cout<<ans;
+    return 0;
+}
