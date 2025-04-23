@@ -1,0 +1,48 @@
+#include <bits/stdc++.h>
+#define ll long long
+#define endl "\n"
+
+using namespace std;
+
+ll p, treasure, t;
+vector <ll> v;
+
+stack <ll> s;
+
+int main()
+{
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+
+    cin>>p>>t>>treasure;
+    v.resize(p+1);
+
+    while(t--)
+    {
+        ll a, b, c;
+        cin>>a>>b>>c;
+        v[b]=a;
+        v[c]=a;
+    }
+
+
+    ll cnt=0;
+    ll num=treasure;
+    while(num!=1)
+    {
+        s.push(num);
+        num=v[num];
+        cnt++;
+       // cout<<"a";
+    }
+    cout<<cnt+1<<endl;
+    s.push(1);
+    while(!s.empty())
+    {
+        cout<<s.top()<<endl;
+        s.pop();
+    }
+
+    return 0;
+}
