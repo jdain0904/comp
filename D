@@ -8,31 +8,19 @@ vector <string> v;
 set <string> tool={"+", "-", "*", "/"};
 string s;
 
-void mid(ll num)
+void mid(ll n)
 {
-    if(num>=v.size()) return;
-    if(tool.find(v[num])==tool.end())
-    {
-        if(num%2==0)
-        {
+    if(n>=v.size()) return;
 
-            cout<<v[num];
-        }
-        else {
-            cout<<v[num];
 
-        }
+    if(n%2==0) cout<<"(";
+    mid(n*2);
+    cout<<v[n];
+   
+    mid(n*2+1);
+     if(n%2==1) cout<<")";
 
-        return;
-
-    }
-    if(num*2<v.size())           cout<<'(';
-    mid(num*2);
-    cout<<v[num];
-    mid(num*2+1);
-    if(num*2+1<v.size())            cout<<')';
 }
-
 ll recur(ll num)
 {
     if(num>=v.size()) return INT_MAX;
