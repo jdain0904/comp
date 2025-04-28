@@ -1,0 +1,44 @@
+#include <bits/stdc++.h>
+
+#define ll long long
+#define endl "\n"
+
+using namespace std;
+
+
+ll n;
+vector <pair<ll, ll>> info;
+vector <vector<ll>> dp;
+
+ll recur(ll k, ll w)
+{
+    if(w<0) return -INT_MAX;
+    if(k>=n) return 0;
+    if(dp[k][w]!=0) return dp[k][w];
+
+    if(info[k].first>w) return dp[k][w]=recur(k+1, w);
+    else return dp[k][w]=max(recur(k+1, w), recur(k+1, w-info[k].first)+info[k].second);
+}
+
+int main()
+{
+    ios_base::sync_with_stdio(false);
+    cin.tie(0);
+    cout.tie(0);
+    ll w;
+    cin>>n>>w;
+
+    for(ll i=0; i<n; i++)
+    {
+        ll a, b;
+        cin>>a>>b;
+        info.push_back({a, b});
+    }
+    dp.resize(n, vector <ll>(w+1));
+
+    cout<<recur(0, w);
+
+
+
+    return 0;
+}
