@@ -1,0 +1,51 @@
+#include <bits/stdc++.h>
+#define ll long long
+#define endl "\n"
+
+using namespace std;
+ll cnt;
+
+void f(ll n, char from, char to)
+{
+    cnt++;
+    if(n==1)
+    {
+        if(from=='A'&&to=='C')
+        {
+            cout<<n<<" : "<<from<<"->"<<'B'<<endl;
+            cout<<n<<" : "<<'B'<<"->"<<to<<endl;
+            cnt++;
+        }
+        else if(from=='C'&&to=='A')
+
+        {
+            cout<<n<<" : "<<from<<"->"<<'B'<<endl;
+            cout<<n<<" : "<<'B'<<"->"<<to<<endl;
+            cnt++;
+        }
+
+        return;
+    }
+
+    f(n-1, from, to);
+    cout<<n<<" : "<<from<<"->"<<'B'<<endl;
+    f(n-1, to, from);
+    cout<<n<<" : "<<'B'<<"->"<<to<<endl;
+    f(n-1, from, to);
+    cnt++;
+}
+
+int main()
+{
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+
+    ll n;
+    cin>>n;
+
+    f(n, 'A', 'C');
+    cout<<cnt;
+
+    return 0;
+}
