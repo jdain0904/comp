@@ -1,0 +1,35 @@
+#include <bits/stdc++.h>
+#define ll long long
+#define endl "\n"
+
+using namespace std;
+
+stack <ll> s;
+ll n, num=1, mx;
+
+int main()
+{
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+
+    cin>>n;
+
+    for(ll i=0; i<n;i++)
+    {
+        ll temp;
+        cin>>temp;
+        while(!s.empty()&&s.top()<=temp) s.pop();
+        if(s.size()>mx)
+        {
+            mx=s.size();
+            num=i+1;
+        }
+        s.push(temp);
+       // cout<<s.size()-1<<endl;
+    }
+
+    cout<<num<<' '<<mx;
+
+    return 0;
+}
