@@ -1,0 +1,55 @@
+#include <bits/stdc++.h>
+#define ll long long
+#define endl "\n"
+
+using namespace std;
+
+vector <ll> v;
+ll n;
+ll mn=INT_MAX;
+
+void recur(ll idx, ll l, ll r, ll cnt)
+{
+    //cout<<idx<<' '<<cnt<<endl;
+    if(idx==n)
+    {
+        if(mn>cnt) mn=cnt;
+       // cout<<"hi"<<mn<<endl;
+        return;
+    }
+
+    if(l==v[idx]||r==v[idx])
+    {
+        recur(idx+1, l, r, cnt);
+        return;
+    }
+
+
+
+    recur(idx+1, v[idx], r, cnt+abs(l-v[idx]));
+    recur(idx+1, l, v[idx], cnt+abs(r-v[idx]));
+}
+
+int main()
+{
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+
+    ll l, r;
+    cin>>n>>l>>r;
+    if(l>r) swap(l, r);
+
+    cin>>n;
+    for(ll i=0; i<n; i++)
+    {
+        ll temp;
+        cin>>temp;
+        v.push_back(temp);
+    }
+
+    recur(0, l, r, 0);
+    cout<<mn;
+
+    return 0;
+}
