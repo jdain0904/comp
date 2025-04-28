@@ -1,0 +1,31 @@
+#include <bits/stdc++.h>
+#define ll long long
+#define endl "\n"
+
+using namespace std;
+
+ll dp[1000000];
+
+ll f(ll n)
+{
+    if(dp[n]!=0) return dp[n];
+
+    if(n==1) return 1;
+    if(n==2) return 5;
+    if(n==3) return 11;
+
+    return dp[n]=(f(n-1)+f(n-2)*4+f(n-3)*2)%100007;
+}
+
+int main()
+{
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+
+    ll n;
+    cin>>n;
+    cout<<f(n);
+
+    return 0;
+}
