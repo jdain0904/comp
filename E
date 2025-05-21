@@ -1,0 +1,109 @@
+#include <bits/stdc++.h>
+#define ll long long
+#define endl "\n"
+
+using namespace std;
+
+ll n, m, t;
+vector <vector<ll>> board;
+queue <pair<ll, ll>> q;
+
+ll dx[]={1, 0, -1, 0};
+ll dy[]={0, 1, 0, -1};
+
+void bfs()
+{
+    while(!q.empty())
+    {
+        ll x=q.front().second;
+        ll y=q.front().first;
+        q.pop();
+        board[y][x]=-1;
+
+        for(ll i=0; i<4; i++)
+        {
+            ll nx=x+dx[i];
+            ll ny=y+dy[i];
+
+            if(board[ny][nx]==0)
+            {
+                q.push({ny, nx});
+                board[ny][nx]=-1;
+            }
+        }
+    }
+}
+
+bool checkfin()
+{
+    for(ll i=1; i<=n; i++)
+    {
+        for(ll j=1; j<=m; j++)
+        {
+            if(board[i][j]==1) return false;
+        }
+    }
+    return true;
+}
+
+void checkcheese()
+{
+    for(ll i=1; i<=n; i++)
+    {
+        for(ll j=1; j<=m; j++)
+        {
+            if(board[i][j]==1)
+            {
+                ll cnt=0;
+                for(ll k=0; k<4; k++)
+                {
+                    ll nx=j+dx[k];
+                    ll ny=i+dy[k];
+
+                    if(board[ny][nx]==-1) cnt++;
+                }
+                if(cnt>=2)
+                {
+                    board[i][j]=0;
+                    q.push({i, j});
+                }
+            }
+        }
+    }
+}
+
+int main()
+{
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+
+    cin>>n>>m;
+    board.resize(n+2, vector<ll>(m+2, 5));
+
+    for(ll i=1; i<=n; i++)
+    {
+        for(ll j=1; j<=m; j++)
+        {
+            cin>>board[i][j];
+        }
+    }
+
+
+
+    q.push({1, 1});
+    board[1][1]=-1;
+
+    while(1)
+    {
+        if(checkfin()) break;
+        bfs();
+        checkcheese();
+
+        t++;
+    }
+
+    cout<<t;
+
+    return 0;
+}
