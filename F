@@ -1,0 +1,69 @@
+#include <bits/stdc++.h>
+#define ll long long
+#define endl "\n"
+
+using namespace std;
+
+ll n, num, k;
+multiset <ll> ans;
+vector <vector <ll>> v;
+vector<ll> visited;
+vector <ll> cost;
+
+void dfs(ll idx)
+{
+    if(idx==n){
+        ll sum=0;
+        for(ll obj : cost) sum+=obj;
+        for(ll obj:cost){
+            ans.insert(sum-(obj/2+(obj%2)));
+        }
+    }
+
+    for(ll i=1; i<=n; i++){
+        if(visited[i]==0&&v[idx][i]!=INT_MAX){
+            visited[i]=1;
+            cost.push_back(v[idx][i]);
+            dfs(i);
+            visited[i]=0;
+            auto it=cost.end();
+            it--;
+            cost.erase(it);
+        }
+    }
+}
+
+int main()
+{
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+
+    cin>>n>>num>>k;
+    v.resize((n+1), vector<ll>(n+1, INT_MAX));
+    visited.resize(n+1);
+
+    while(num--){
+        ll s, t, c;
+        cin>>s>>t>>c;
+        v[s][t]=c;
+        v[t][s]=c;
+    }
+
+    visited[1]=1;
+
+    dfs(1);
+
+    if(ans.size()<k) {
+        cout<<-1;
+    }
+else{
+     auto it=ans.begin();
+    while(k--) it++;
+    it--;
+    cout<<*it;
+}
+   
+    
+    return 0;
+}
