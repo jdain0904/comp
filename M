@@ -1,0 +1,89 @@
+#include <bits/stdc++.h>
+#define ll long long
+#define endl "\n"
+
+using namespace std;
+
+ll h, w, cnt;
+ll dx[]={-1, 0, 1, 0};
+ll dy[]={0, 1, 0, -1};
+map <char, char> chan={{'F', 'R'}, {'R', 'F'}};
+char state;
+vector<vector<char>> board;
+vector<vector<char>> visited;
+
+bool check(char st){
+    st=chan[st];
+    for(ll i=1; i<=h; i++){
+        for(ll j=1; j<=w; j++){
+            if(board[i][j]==st) return true; 
+        }
+    }
+    return false;
+}
+
+void bfs(char st)
+{
+    queue <pair<ll, ll>> q;
+    q.push({h, w});
+    visited[h][w]=1;
+    board[h][w]=chan[st];
+
+    while(!q.empty()){
+        pair <ll, ll> x=q.front();
+        q.pop();
+
+        for(ll i=0; i<4; i++){
+            ll ny=x.first+dy[i];
+            ll nx=x.second+dx[i];
+
+            if(board[ny][nx]==st&&visited[ny][nx]==0){
+                visited[ny][nx]=1;
+                board[ny][nx]=chan[st];
+                q.push({ny, nx});
+            }
+        }
+    }
+
+}
+
+void print(){
+    for(ll i=1; i<=h; i++){
+        for(ll j=1; j<=w; j++){
+            cout<<board[i][j];
+        }
+        cout<<endl;
+    }
+}
+
+int main()
+{
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+    
+    cin>>h>>w;
+    board.resize(h+2, vector<char>(w+2));
+
+    for(ll i=1; i<=h; i++){
+        for(ll j=1; j<=w; j++){
+            cin>>board[i][j];
+        }
+    }
+    state=board[h][w];
+    while(check(state)){
+                visited.clear();
+        visited.resize(h+2, vector<char>(w+2));
+
+        bfs(state);
+        state=board[h][w];
+        //print();
+        cnt++;
+       // cout<<endl;
+        
+    }
+    cout<<cnt+1;
+
+    return 0;
+    
+}
