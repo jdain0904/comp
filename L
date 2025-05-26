@@ -1,0 +1,88 @@
+#include <bits/stdc++.h>
+#define ll long long
+#define endl "\n"
+
+using namespace std;
+
+ll t;
+
+bool odd(pair<ll, ll> a, pair <ll, ll> b){
+    if(a.first+a.second==b.first+b.second||(a.first-a.second)==(b.first-b.second)) return true;
+    return false;
+}
+
+ll check(pair <ll, ll> st, pair <ll, ll> one, pair <ll, ll> two, pair <ll, ll> three){
+    ll cnt=0;
+
+    if(st==one) cnt+=0;
+    else if(odd(st, one)) cnt+=1;
+    else cnt+=2;
+
+    if(one==two) cnt+=0;
+    else if(odd(one, two)) cnt+=1;
+    else cnt+=2;
+
+    if(two==three) cnt+=0;
+    else if(odd(two, three)) cnt+=1;
+    else cnt+=2;
+
+    return cnt;
+    
+}
+
+int main()
+{
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+
+    
+
+    cin>>t;
+
+    while(t--){
+        vector<vector<char>> board;
+        pair<ll, ll> state;
+   
+        vector<pair<ll, ll>> target;
+        ll flag=0, oddity=-1, cnt=INT_MAX;
+
+        board.resize(8, vector<char>(8));
+        for(ll i=0; i<8; i++){
+            for(ll j=0; j<8; j++){
+                cin>>board[i][j];
+                
+                if(board[i][j]=='T'){
+                if(oddity==-1) oddity=(i+j)%2;
+                else if(oddity!=(i+j)%2){
+                    flag=1;
+                }
+                target.push_back({i, j});
+                } 
+                else if(board[i][j]=='B'){
+                    state={i, j};
+                }
+            }
+
+        }
+
+     
+
+        if(flag==1||oddity!=(state.first+state.second)%2){
+            cout<<-1<<endl;
+            continue;
+        }
+
+        cnt=min(cnt, check(state, target[0], target[1], target[2]));
+       cnt=min(cnt, check(state, target[1], target[0], target[2]));
+        cnt=min(cnt, check(state, target[0], target[2], target[1]));
+cnt=min(cnt, check(state, target[1], target[2], target[0]));
+cnt=min(cnt, check(state, target[2], target[0], target[1]));
+cnt=min(cnt, check(state, target[2], target[1], target[0]));
+
+
+        cout<<cnt<<endl;
+    }
+    
+    return 0;
+}
