@@ -1,0 +1,71 @@
+#include <bits/stdc++.h>
+#define ll long long
+#define endl "\n"
+
+using namespace std;
+
+vector <vector<ll>> board;
+ll w, h, cnt, mod;
+pair<ll, ll> start, fin;
+
+void bfs(pair<ll, ll> st)
+{
+    queue <pair<ll, ll>> q;
+    q.push(st);
+
+    while(!q.empty())
+    {
+        pair<ll, ll> x=q.front();
+        q.pop();
+
+        if(board[x.first][x.second]==0) continue;
+
+        if(x==fin) {
+            cnt++;
+            continue;
+        }
+
+        if((x.first%2+mod)==1){
+            q.push({x.first-1, x.second-1});
+            q.push({x.first-1, x.second});
+            q.push({x.first, x.second+1});
+        }
+        else{
+            q.push({x.first-1, x.second+1});
+            q.push({x.first-1, x.second});
+            q.push({x.first, x.second+1});
+        }
+    }
+}
+
+int main()
+{
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+    
+    cin>>w>>h;
+
+    if(h%2==0) mod=1; 
+
+    board.resize(w+2, vector <ll> (h+2, 0));
+
+    for(ll i=1; i<=h; i++)
+    {
+        if((i+h)%2==0) for(ll j=1; j<=w; j++) board[i][j]=1;
+        else for(ll j=1; j<w; j++) board[i][j]=1;
+    }
+
+    ll a, b;
+    cin>>a>>b;
+    start={h-b+1, a};
+    cin>>a>>b;
+    fin={h-b+1, a};
+
+   // cout<<start.first<<' '<<start.second;
+
+    bfs(start);
+    cout<<cnt;
+
+    return 0;
+}
