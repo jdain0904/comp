@@ -1,0 +1,90 @@
+#include <bits/stdc++.h>
+#define ll long long
+#define endl "\n"
+
+using namespace std;
+
+ll n;
+vector <ll> v(100001, 0);
+vector <ll> slist, seg;
+
+ll init(ll node, ll s, ll e){
+    if(s==e) return seg[node]=v[s];
+
+    ll m=(s+e)/2;
+    return seg[node]=init(node*2, s, m)+init(node*2+1, m+1, e);
+}
+
+ll sum(ll node, ll s, ll e, ll l, ll r){
+    if(e<l||r<s) return 0;
+
+    if(l<=s&&e<=r) return seg[node];
+
+    ll m=(s+e)/2;
+
+    return sum(node*2, s, m, l, r)+sum(node*2+1, m+1, e, l, r);
+}
+
+void update(ll node, ll s, ll e, ll idx, ll diff){
+    if(e<idx||s>idx) return;
+
+    seg[node]+=diff;
+
+    if(s!=e){
+        ll m=(s+e)/2;
+        update(node*2, s, m, idx, diff);
+        update(node*2+1, m+1, e, idx, diff);
+    }
+}
+
+int main()
+{
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+
+    cin>>n;
+    for(ll i=0; i<n; i++){
+        double temp;
+        cin>>temp;
+        slist.push_back(int(temp*100+0.5));
+       // cout<<int(temp*100+0.5)<<endl;
+        v[int(temp*100+0.5)]++;
+    }
+
+    seg.resize(100001*4);
+
+    init(1, 1, 100000);
+
+    //for(ll i=0; i<5; i++) cout<<v[i]<<' ';
+
+    ll q;
+    cin>>q;
+
+    while(q--){
+        ll what, idx;
+
+        cin>>what>>idx;
+
+        if(what==1){
+        //
+           // cout<<slist[idx-1]<<' ';
+            cout<<sum(1, 1, 100000, slist[idx-1]+1, 100000)+1<<endl;
+        }
+
+        if(what==2){
+            double score;
+            cin>>score;
+            int modi=int(score*100+0.5);
+
+            v[slist[idx-1]]--;
+            update(1, 1, 100000, slist[idx-1], -1);
+
+            v[modi]++;
+            update(1, 1, 100000, modi, 1);
+            slist[idx-1]=modi;
+        }
+    }
+    
+    return 0;
+}
