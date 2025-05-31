@@ -1,0 +1,66 @@
+#include <bits/stdc++.h>
+#define ll long long
+#define endl "\n"
+
+using namespace std;
+
+vector <ll> v, seg;
+ll n, m;
+
+ll init(ll node, ll s, ll e){
+    if(s==e) return seg[node]=v[s];
+
+    ll m=(s+e)/2;
+
+    return seg[node]=init(node*2, s, m)+init(node*2+1, m+1, e);
+}
+
+ll sum(ll node, ll s, ll e, ll l, ll r){
+    if(l>e||r<s) return 0;
+
+    if(l<=s&&e<=r) return seg[node];
+    
+    ll mid=(s+e)/2;
+    return sum(node*2, s, mid, l, r)+sum(node*2+1, mid+1, e, l, r);
+}
+
+void update(ll node, ll s, ll e, ll idx, ll change){
+    if(idx<s||idx>e) return;
+    seg[node]+=change;
+
+    if(s!=e){
+        ll m=(s+e)/2;
+        update(node*2, s, m, idx, change);
+        update(node*2+1, m+1, e, idx, change);
+    }
+}
+
+int main()
+{
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+
+    cin>>n>>m;
+
+    v.resize(n+1, 0);
+    seg.resize(n*4);
+
+    for(ll i=1; i<=n; i++){
+        cin>>v[i];
+    }
+    init(1, 1, n);
+
+    while(m--){
+        ll t, a, b;
+        cin>>t>>a>>b;
+        if(t==1) cout<<sum(1, 1, n, a, b)<<endl;
+        else 
+        {
+            update(1, 1, n, a, b-v[a]);
+            v[a]=b;
+        }
+    }
+    
+    return 0;
+}
