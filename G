@@ -1,0 +1,53 @@
+#include <bits/stdc++.h>
+#define ll long long
+#define endl "\n"
+#define mx 500001
+
+using namespace std;
+
+ ll n, ans;
+ vector <ll> v, dp, vec;
+
+int main()
+{
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+
+    cin>>n;
+    v.resize(mx);
+
+    for(ll i=0; i<n; i++){
+        ll a, b;
+        cin>>a>>b;
+        v[a]=b;
+    }
+
+    vector<ll> comp(v);
+    sort(comp.begin(), comp.end());
+    comp.erase(unique(comp.begin(), comp.end()), comp.end());
+    comp.erase(lower_bound(comp.begin(), comp.end(), 0));
+
+    for(auto val : v){
+        if(val==0) continue;
+        auto it=lower_bound(comp.begin(), comp.end(), val);
+        vec.push_back(distance(comp.begin(), it));
+    }
+
+    dp.push_back(vec[0]);
+
+    for(ll i=1; i<n; i++){
+        if(vec[i]>dp[dp.size()-1]) dp.push_back(vec[i]);
+        else{
+            auto it=lower_bound(dp.begin(), dp.end(), vec[i]);
+            *it=vec[i];
+        }
+
+        ll len=dp.size();
+        ans=max(ans, len);
+    }
+    
+    cout<<n-ans;
+
+    return 0;
+}
