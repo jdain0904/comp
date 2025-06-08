@@ -1,0 +1,32 @@
+//f(현재위치, 이전이동, 연속횟수)
+\\연속횟수=1(이전에 이미 연속했음) 일때만 이전이동과의 일치를 피하면됨(for(1~~3)에서 continue 이용)
+#include <bits/stdc++.h>
+#define ll long long
+#define endl "\n"
+
+using namespace std;
+
+ll n, cnt;
+void f(ll num, ll past, ll how){
+    if(num>n) return;
+    if(num==n) cnt++;
+
+    for(ll i=1; i<=3; i++) {
+        if(past==i&&how==1) continue;
+        else if(past==i&&how==0) f(num+i, past, 1);
+        else f(num+i, i, 0);
+    }
+}
+
+int main()
+{
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+
+     cin>>n;
+     f(0, 0, 0);
+     cout<<cnt;
+    
+    return 0;
+}
