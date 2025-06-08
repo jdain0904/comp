@@ -1,0 +1,29 @@
+//f(현재위치, 이전이동회숫)
+//for(이전이동횟수~4)까지 더해보며 재귀실행하면됨
+#include <bits/stdc++.h>
+#define ll long long
+#define endl "\n"
+
+using namespace std;
+
+ll n, cnt;
+
+void f(ll num, ll mn){
+    if(num>n) return;
+    if(num==n) cnt++;
+
+    for(ll i=mn; i<=4; i++) f(num+i, i);
+}
+
+int main()
+{
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+
+     cin>>n;
+     f(0, 1);
+     cout<<cnt;
+    
+    return 0;
+}
