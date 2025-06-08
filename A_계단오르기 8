@@ -1,0 +1,37 @@
+//f(a, b)인데 a, b가 같을때, a, b가 n 초과할때, a, b가 동시에 n 아닐때만 제외시키고 재귀호출
+#include <bits/stdc++.h>
+#define ll long long
+#define endl "\n"
+
+using namespace std;
+
+ll n, cnt;
+
+void f(ll a, ll b){
+    if(a>n||b>n) return;
+    if(a==b&&a==n){
+        cnt++;
+        return;
+    }
+    else if(a==n||b==n) return;
+    if(a!=0&&a==b) return;
+    
+    for(ll i=1; i<=3; i++){
+        for(ll j=1; j<=3; j++) f(a+i, b+j);
+    }
+}
+
+int main()
+{
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+
+    cin>>n;
+
+    f(0, 0);
+
+    cout<<cnt;
+    
+    return 0;
+}
