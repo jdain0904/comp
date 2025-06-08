@@ -1,0 +1,27 @@
+//C(n, k)=C(n-1, k)+c(n-1, k-1)
+#include <bits/stdc++.h>
+#define ll long long
+#define endl "\n"
+
+using namespace std;
+
+ll c(ll n, ll k){
+    if(k==1) return n;
+    if(k==0) return 1;
+    if(n==k) return 1;
+
+    return c(n-1, k-1)+c(n-1, k);
+}
+
+int main()
+{
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+
+    ll n, k;
+    cin>>n>>k;
+    cout<<c(n, k);
+    
+    return 0;
+}
