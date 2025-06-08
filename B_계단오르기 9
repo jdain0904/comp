@@ -1,0 +1,46 @@
+//f(o위치, x위치, o의 3의배수 횟수, x의 3의배수 횟수)
+\\o==n, x==n 일때 둘다 3의배수 횟수가 1인지 확인해서 맞으면 cnt 올리기, 아니면 return
+#include <bits/stdc++.h>
+#define ll long long
+#define endl "\n"
+
+using namespace std;
+
+ll n, cnt;
+
+void f(ll a, ll b, ll ca, ll cb){
+    if(a>n||b>n) return;
+    
+
+    if(a!=0&&a%3==0) ca++;
+    if(b!=0&&b%3==0) cb++;
+
+    if(ca>=2) return;
+    if(cb>=2) return;
+
+    if(a==n&&b==n) {
+        if(ca==1&&cb==1) cnt++;
+        else return;
+    }
+    
+    if(a!=b&&(a==n||b==n)) return;
+    
+    for(ll i=1; i<=2; i++){
+        for(ll j=1; j<=2; j++) f(a+i, b+j, ca, cb);
+    }
+}
+
+int main()
+{
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+
+    cin>>n;
+
+    f(0, 0, 0, 0);
+
+    cout<<cnt;
+    
+    return 0;
+}
