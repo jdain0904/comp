@@ -1,0 +1,52 @@
+/*
+그냥 3개에 대하여 스택쓰면됨 
+*/
+#include <bits/stdc++.h>
+#define ll long long
+#define endl "\n"
+
+using namespace std;
+
+stack <char> stk;
+string s;
+ll flag=1;
+
+int main()
+{
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+
+    cin>>s;
+
+    for(char c:s){
+        if(c==')'){
+            if(stk.empty()||stk.top()!='('){
+                flag=0;
+                break;
+            }
+            else stk.pop();
+        }
+        else if(c=='}'){
+            if(stk.empty()||stk.top()!='{'){
+                flag=0;
+                break;
+            }
+            else stk.pop();
+        }
+        else if(c==']'){
+            if(stk.empty()||stk.top()!='['){
+                flag=0;
+                break;
+            }
+            else stk.pop();
+        }
+        else stk.push(c);
+    }
+    if(!stk.empty()) flag=0;
+
+    if(flag==1) cout<<"O";
+    else cout<<"X";
+    
+    return 0;
+}
