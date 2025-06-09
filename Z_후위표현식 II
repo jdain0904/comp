@@ -1,0 +1,50 @@
+/*
+숫자는 바로 빼기 
+수식은 push하다가 top 우선순위>=넣을거 우선순위이면 pop
+괄호 : )만나면 (나올때까지 다빼기
+*/
+#include <bits/stdc++.h>
+#define ll long long
+#define endl "\n"
+
+using namespace std;
+
+string s;
+stack <char> stk;
+map <char, ll> pri={{'+', 1}, {'-', 1}, {'*', 10}, {'/', 10}};
+
+int main()
+{
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+
+    cin>>s;
+
+    for(char c:s){
+        
+        if(c=='(') stk.push(c);
+        else if(c==')'){
+            while(stk.top()!='(')
+            {
+                cout<<stk.top();
+                stk.pop();
+            }
+            stk.pop();
+        }
+        else if(pri.find(c)==pri.end()) cout<<c;
+        else{
+            while(!stk.empty()&&pri[stk.top()]>=pri[c]){
+                cout<<stk.top();
+                stk.pop();
+            }
+            stk.push(c);
+        }
+    }
+    while(!stk.empty()) {
+        cout<<stk.top();
+        stk.pop();
+    }
+    
+    return 0;
+}
