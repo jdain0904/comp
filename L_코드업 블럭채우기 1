@@ -1,0 +1,32 @@
+/*
+점화식 : f(n)=f(n-1)+f(n-2)
+dp씀씀
+*/
+#include <bits/stdc++.h>
+#define ll long long
+#define endl "\n"
+
+using namespace std;
+
+vector <ll> dp(100001);
+
+ll f(ll n){
+    if(dp[n]!=0) return dp[n];
+    return dp[n]=(f(n-1)+f(n-2))%100000007;
+}
+
+int main()
+{
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+
+    ll n;
+    dp[1]=1;
+    dp[2]=2;
+    cin>>n;
+    cout<<f(n);
+    
+    
+    return 0;
+}
