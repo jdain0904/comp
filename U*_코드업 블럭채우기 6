@@ -1,0 +1,41 @@
+/*
+무한 점화식 들어감
+무한 없는 f(n)=2*f(n-1)+f(n-2)*3
+무한 있는 g(n)=f(0~n-3)*2
+*/
+#include <bits/stdc++.h>
+#define ll long long
+#define endl "\n"
+#define div 100007
+
+using namespace std;
+
+vector <ll> dp(100001);
+
+ll f(ll n){
+    if(n<=0) return 0;
+    if(dp[n]!=0) return dp[n];
+    ll sum=f(n-2)*3+2*f(n-1);
+    sum%=div;
+    for(ll i=0; i<n-2; i++){
+        sum+=f(i)*2;
+        sum%=div;
+    }
+
+    return dp[n]=sum;
+}
+
+int main()
+{
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+
+    ll n;
+    cin>>n;
+    dp[1]=2;
+    dp[2]=7;
+    cout<<f(n);
+    
+    return 0;
+}
