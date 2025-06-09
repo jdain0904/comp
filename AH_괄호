@@ -1,0 +1,96 @@
+/*
+구현문제
+스택에 괄호 넣다가 ), ] 나오면 전꺼 나올때까지 다 빼고, 값 계산
+*/
+#include <bits/stdc++.h>
+#define ll long long
+#define endl "\n"
+
+using namespace std;
+
+string s;
+stack <char> stk;
+vector <ll> store;
+ll flag=0;
+
+int main()
+{
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+
+    cin>>s;
+
+    
+
+    for(char c:s){
+
+        if(flag==1) break;
+        if(c==')'){
+            ll num=0;
+            while(!stk.empty()&&stk.top()!='('){
+                if(stk.top()>='a')
+                {
+                    num+=store[stk.top()-'a'];
+                }
+                else {
+
+                    flag=1;
+                    break;
+                }
+                stk.pop();
+            }
+            if(stk.empty()){
+                flag=1;
+                break;
+            }
+            stk.pop();
+            if(num==0) num=1;
+            store.push_back(num*2);
+            stk.push(store.size()-1+'a');
+
+        }
+        else if(c==']'){
+
+            ll num=0;
+             while(!stk.empty()&&stk.top()!='['){
+                if(stk.top()>='a')
+                {
+                    num+=store[stk.top()-'a'];
+                }
+                else {
+                    flag=1;
+                    break;
+                }
+                stk.pop();
+            }
+            if(stk.empty()){
+                flag=1;
+                break;
+            }
+            stk.pop();
+            if(num==0) num=1;
+            store.push_back(num*3);
+            stk.push(store.size()-1+'a');
+        }
+        else stk.push(c);
+    }
+
+    if(flag==1) cout<<0;
+    else{
+        ll sum=0;
+        while(!stk.empty()){
+            if(stk.top()>='a') sum+=store[stk.top()-'a'];
+            else {
+                cout<<0;
+                flag=1;
+                break;
+            }
+
+            stk.pop();
+        }
+        if(flag==0)cout<<sum;
+    }
+
+    return 0;
+}
