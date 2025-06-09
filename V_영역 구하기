@@ -1,0 +1,64 @@
+/*
+그냥 계속 네모로 쪼개기 : 좌표계산 주의~!
+*/
+#include <bits/stdc++.h>
+#define ll long long
+#define endl "\n"
+
+using namespace std;
+
+vector <vector<ll>> v;
+ll w, g;
+
+bool check(ll y, ll x, ll s){
+    ll st=v[y][x];
+    for(ll i=y; i<y+s; i++){
+        for(ll j=x; j<x+s; j++){
+            if(st!=v[i][j]) return false;
+        }
+    }
+    return true;
+}
+
+void f(ll y, ll x, ll s){
+    if(s==1){
+        if(v[y][x]==0) w++;
+        else g++;
+        return;
+    }
+    if(check(y, x, s)) {
+        if(v[y][x]==0) w++;
+        else g++;
+        return;
+    }
+
+    s/=2;
+
+    f(y, x, s);
+    f(y+s, x, s);
+    f(y, x+s, s);
+    f(y+s, x+s, s);
+}
+
+int main()
+{
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+
+    ll n;
+    cin>>n;
+    v.resize(n, vector<ll>(n));
+
+    for(ll i=0; i<v.size(); i++){
+        for(ll j=0; j<v.size(); j++){
+            cin>>v[i][j];
+        }
+    }
+    ll temp=1;
+    
+    f(0, 0, n);
+    cout<<w<<endl<<g;
+    
+    return 0;
+}
