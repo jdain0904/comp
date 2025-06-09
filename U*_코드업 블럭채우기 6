@@ -13,7 +13,7 @@ using namespace std;
 vector <ll> dp(100001);
 
 ll f(ll n){
-    if(n<=0) return 0;
+    if(n<0) return 0;
     if(dp[n]!=0) return dp[n];
     ll sum=f(n-2)*3+2*f(n-1);
     sum%=div;
@@ -33,6 +33,7 @@ int main()
 
     ll n;
     cin>>n;
+    dp[0]=1;
     dp[1]=2;
     dp[2]=7;
     cout<<f(n);
