@@ -1,0 +1,44 @@
+/*
+기본 냅색문제
+dp[idx][무게]  
+    1) dp[idx+1][무게]=dp[idx][무게]
+    2) dp[idx+1][무게]=dp[idx][무게-상품무게]+상품가치
+모든 n, w 에 대해 해보면 된다.
+*/
+#include <bits/stdc++.h>
+#define ll long long
+#define endl "\n"
+
+using namespace std;
+
+ll n, w, ans;
+vector <pair<ll, ll>> obj;
+vector <vector<ll>> dp(21, vector<ll>(10001));
+
+
+int main()
+{
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+
+    cin>>n>>w;
+
+    for(ll i=0; i<n; i++){
+        ll a, b;
+        cin>>a>>b;
+        obj.push_back({a, b});
+    }
+
+    for(ll i=1; i<=n; i++){
+        for(ll j=1; j<=w; j++){
+            if(j>=obj[i-1].first) dp[i][j]=max(dp[i-1][j], dp[i-1][j-obj[i-1].first]+obj[i-1].second);
+            else dp[i][j]=dp[i-1][j];
+        }
+    }
+
+    cout<<dp[n][w];
+   
+    
+    return 0;
+}
