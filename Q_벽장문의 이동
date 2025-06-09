@@ -1,0 +1,53 @@
+/*
+모든 경우 해보면 됨 
+f(벽장문 1, 벽장문 2, 지금까지 이동거리, 현재쿼리)
+*/
+#include <bits/stdc++.h>
+#define ll long long
+#define endl "\n"
+
+using namespace std;
+
+ll n;
+ll mn=INT_MAX;
+vector <ll> q;
+
+void f(ll a, ll b, ll sum, ll t){
+    if(t>=q.size()){
+        mn=min(sum, mn);
+       // cout<<sum<<endl;
+        return;
+    }
+    ll target=q[t];
+
+    if(a==target) f(a, b, sum, t+1);
+    else if(b==target) f(a, b, sum, t+1);
+    else {
+        f(target, b, sum+abs(target-a), t+1);
+        f(a, target, sum+abs(target-b), t+1);
+    }
+}
+
+int main()
+{
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+
+    cin>>n;
+    ll a, b;
+    cin>>a>>b;
+    ll t;
+    cin>>t;
+    for(ll i=0; i<t; i++) 
+    {
+        ll temp;
+        cin>>temp;
+        q.push_back(temp);
+    }
+    if(a>b) swap(a, b);
+    f(a, b, 0, 0);
+    cout<<mn;
+    
+    return 0;
+}
