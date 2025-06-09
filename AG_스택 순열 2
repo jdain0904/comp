@@ -31,7 +31,6 @@ int main()
         if(!stk.empty()&&stk.top()==target){
             stk.pop();
             v.push_back("pop");
-            cur--;
             break;
         }
             if(cur>=n){
