@@ -1,0 +1,44 @@
+/*
+f : b, c 기둥에 있는걸 a로 합침
+g : 두 탑 합치기
+h : 2n개 옮기기
+
+f(n)=2h(n-1)+g(n-1)+2;
+g(n)=f(n-1)+h(n-1)+1;
+h(n)=2h(n-1)+2
+
+숫자크다고재귀안도는거너무맘아프다
+동빈아너는반복dp로 짜도록 해해
+*/
+#include <bits/stdc++.h>
+#define ll long long
+#define endl "\n"
+#define div 1000000007
+#define lim 1001000
+
+using namespace std;
+
+vector <ll> df(lim, 0), dg(lim, 0), dh(lim, 0);
+
+
+int main()
+{
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+    
+    ll n;
+    cin>>n;
+
+    dh[1]=2;
+    dg[1]=1;
+    df[1]=2;
+    for(ll i=2; i<=n; i++)dh[i]=(dh[i-1]*2+2)%div;
+    for(ll i=2; i<=n; i++){
+        dg[i]=(df[i-1]+dh[i-1]+1)%div;
+        df[i]=(dg[i-1]+2*dh[i-1]+2)%div;
+    }
+    cout<<df[n];
+
+    return 0;
+}
