@@ -1,0 +1,39 @@
+/*
+단순스택 : (이면 push, 아니면 pop
+중간에 stack.empty()인데 pop해야 하거나 마지막에 stack이 안비어있으면 안됨
+*/
+#include <bits/stdc++.h>
+#define ll long long
+#define endl "\n"
+
+using namespace std;
+
+string s;
+stack <char> stk;
+
+ll flag;
+
+int main()
+{
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+
+    cin>>s;
+    
+    for(char c : s){
+        if(c=='(')stk. push(c);
+        else {
+            if(stk.empty()) {
+                flag=1;
+                break;
+            }
+            else stk.pop();
+        }
+    }
+    if(!stk.empty()) flag=1;
+    if(flag==0) cout<<"YES";
+    else cout<<"NO";
+
+    return 0;
+}
