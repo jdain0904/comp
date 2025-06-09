@@ -1,0 +1,86 @@
+/*
+가장 인접한 걸 쓰는게 최소해
+그냥 최소중 최대/최대중 최소 찾아서 각각의 경우 재귀돌리기
+func(firetruck 인덱스..그냥다해보면됨, 거리합)
+*/
+#include <bits/stdc++.h>
+#define ll long long
+#define endl "\n"
+
+using namespace std;
+
+ll p, f, mn=INT_MAX;
+vector <pair<ll, ll>> board;
+vector <ll> visited;
+
+bool cmp(pair<ll, ll> a, pair<ll, ll> b){
+    if(a.first!=b.first) return a.first<b.first;
+    return a.second<b.second;
+}
+
+void func(ll idx, ll sum){
+    
+    ll next=-1;
+    if(idx==-1){
+        mn=min(mn, sum);
+        return;
+    }
+
+    for(ll i=idx+1; i<board.size(); i++){
+        if(board[i].second==2){
+            next=i;
+            break;
+        }
+    }
+    
+    for(ll i=idx; i>=0; i--){
+        if(visited[i]==0&&board[i].second==1){
+            visited[i]=1;
+            func(next, sum+abs(board[i].first-board[idx].first));
+            visited[i]=0;
+            break;
+        }
+    }
+
+     for(ll i=idx; i<board.size(); i++){
+        if(visited[i]==0&&board[i].second==1){
+            visited[i]=1;
+            func(next, sum+abs(board[i].first-board[idx].first));
+            visited[i]=0;
+            break;
+        }
+    }
+}
+
+int main()
+{
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+
+    cin>>p>>f;
+
+    for(ll i=0; i<p; i++){
+        ll temp;
+        cin>>temp;
+        board.push_back({temp, 1});
+    }
+    for(ll i=0; i<f; i++){
+        ll temp;
+        cin>>temp;
+        board.push_back({temp, 2});
+    }
+    
+    sort(board.begin(), board.end(), cmp);
+
+    ll i;
+    for(i=0; i<board.size(); i++){
+        if(board[i].second==2) break;
+    }
+    visited.resize(p+f+1);
+
+    func(i, 0);
+    cout<<mn;
+    
+    return 0;
+}
