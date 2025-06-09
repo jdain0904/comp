@@ -1,0 +1,55 @@
+/*
+왼쪽부터 한 자리 선점/선점x일때 나눠서 점화식세우기
+f(의자번호, 남은 사람수, 상태(0 : 자리 자리 __, 1: 공백 자리 __, 2 : 공백 __))
+
+st==0 : f(n+1, k, 2) (무조건 비워야함)
+st==1 : f(n+1, k, 2) + f(n+1, k-1, 0)
+st==2 : f(n+1, k, 2) + f(n+1, k-1, 1)
+마지막자리는 st==2이고 left==1일때만 cnt 올리고 나머지경우는 불가능하니 return
+
+//n==좌석수되기 전에 k 소진되면됨
+*/
+#include <bits/stdc++.h>
+#define ll long long
+#define endl "\n"
+
+using namespace std;
+
+ll n, k, cnt;
+
+void f(ll num, ll left, ll st){
+  if(left==0) {
+    cnt++;
+    return;
+  }
+  if(num>n) return;
+
+  if(num==n){
+    if(st==2&&left==1) cnt++;
+    return;
+  }
+   
+  if(st==0) f(num+1, left, 2);
+  else if(st==1){
+    f(num+1, left-1, 0);
+    f(num+1, left, 2);
+  }
+  else{
+    f(num+1, left, 2);
+    f(num+1, left-1, 1);
+  }
+}
+
+int main()
+{
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+
+    cin>>n>>k;
+    f(2, k-1, 0);
+    f(2, k, 2);
+    
+    cout<<cnt;
+    return 0;
+}
