@@ -1,0 +1,48 @@
+/*
+각 부분에 2*n 세로로 세운다 생각하고 칸 나누어 문제풀기
+수직 없는 경우 : nov(n)=nov(n-1)+nov(n-2)+nov(n-3);
+수직 있는 경우 : f(n)=for(ll i=1; i<=n+1; i++) sum+=nov(i-1)*nov(i-1)*f(n-i);
+*/
+#include <bits/stdc++.h>
+#define ll long long
+#define endl "\n"
+#define div 2052506102;
+
+using namespace std;
+
+ll cnt;
+vector<ll> dp(100);
+
+ll nov(ll n){
+    if(dp[n]!=0) return dp[n];
+    if(n<=0) return 1;
+    if(n==1) return 1;
+    if(n==2) return 2;
+    if(n==3) return 4;
+    return dp[n]= (nov(n-1)+nov(n-2)+nov(n-3))%div;
+}
+
+ll f(ll n){
+    if(n<=0) return 1;
+    if(n==1) return 2;
+    ll sum=0;
+    for(ll i=1; i<=n+1; i++){
+        sum+=nov(i-1)*nov(i-1)*f(n-i);
+        sum%=div;
+    }
+    return sum;
+}
+
+int main()
+{
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+
+    ll n;
+    cin>>n;
+
+    cout<<f(n);
+    
+    return 0;
+}
