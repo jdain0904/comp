@@ -1,0 +1,43 @@
+/*
+map+stack쓰면 쉽다
+*/
+#include <bits/stdc++.h>
+#define ll long long
+#define endl "\n"
+
+using namespace std;
+string s;
+stack <char> stk;
+map <char, char> mp={{'a', 'b'}, {'b', 'c'}, {'c', 'a'}};
+
+int main()
+{
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+    
+    cin>>s;
+
+    for(char c : s){
+        if(stk.empty()) stk.push(c);
+        else{
+            while(!stk.empty()&&stk.top()==c){
+                stk.pop();
+                c=mp[c];
+            }
+            stk.push(c);
+        }
+    }
+
+    vector <char> v;
+    while(!stk.empty()){
+        v.push_back(stk.top());
+        stk.pop();
+    }
+
+    for(ll i=v.size()-1; i>=0; i--){
+        cout<<v[i];
+    }
+
+    return 0;
+}
