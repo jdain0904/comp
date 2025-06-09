@@ -1,0 +1,47 @@
+/*
+f : b, c 기둥에 있는걸 a로 합침
+g : 두 탑 합치기
+h : 2n개 옮기기
+
+f(n)=2h(n-1)+g(n-1)+2;
+g(n)=f(n-1)+h(n-1)+1;
+h(n)=2h(n-1)+2
+*/
+#include <bits/stdc++.h>
+#define ll long long
+#define endl "\n"
+
+using namespace std;
+
+ll f(ll);
+ll g(ll);
+ll h(ll);
+
+ll f(ll n){
+    if(n==1) return 2;
+    return 2*h(n-1)+g(n-1)+2;
+}
+
+ll g(ll n){
+    if(n==1) return 1;
+    return f(n-1)+h(n-1)+1;
+}
+
+ll h(ll n){
+    if(n==1) return 2;
+    return 2+2*h(n-1);
+}
+
+
+int main()
+{
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+    
+    ll n;
+    cin>>n;
+    cout<<f(n);
+
+    return 0;
+}
