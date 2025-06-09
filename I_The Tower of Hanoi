@@ -1,0 +1,45 @@
+/*
+단순 하노이탑
+1. 나머지를 B로 옮긴다
+2. 3을 C로 옮긴다.
+3. 나머지를 C로 옮긴다
+
+f(n, 출발, 경유, 도착)=f(n-1, 출발, 도착, 경유)+1+f(n-1, 경유, 출발, 도착);
+
+*/
+
+#include <bits/stdc++.h>
+#define ll long long
+#define endl "\n"
+
+using namespace std;
+
+ll t, cnt;
+
+void func(ll num, char s, char m, char f){
+    if(num==1){
+        cout<<"move disk "<<num<<" "<<s<<"->"<<f<<endl;
+        cnt++;
+        return;
+    }
+
+    func(num-1, s, f, m);
+    cout<<"move disk "<<num<<" "<<s<<"->"<<f<<endl;
+    cnt++;
+    func(num-1, m, s, f);
+}
+
+int main()
+{
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+
+    ll t;
+    cin>>t;
+    cout<<pow(2, t)-1<<endl;
+
+    func(t, 'A', 'B', 'C');
+    
+    return 0;
+}
