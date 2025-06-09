@@ -1,0 +1,58 @@
+/*
+1부터 n까지 해당 쿼리에 맞게 실행해보면됨
+*/
+#include <bits/stdc++.h>
+#define ll long long
+#define endl "\n"
+
+using namespace std;
+
+ll n, flag;
+stack <ll> stk;
+vector <char> v;
+
+int main()
+{
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+    
+    cin>>n;
+    ll num=1;
+
+    for(ll i=0; i<n; i++)
+    {
+        ll target;
+        cin>>target;
+        while(1)
+        {
+            if(num>target){
+                if(stk.empty()||stk.top()!=target){
+                    flag=1;
+                    break;
+                }
+                if(stk.top()==target) {
+                    stk.pop();
+                    v.push_back('-');
+                    break;
+                }
+                else{
+                    flag=1;
+                    break;
+                }
+            }
+            else {
+                stk.push(num++);
+                v.push_back('+');
+            }
+        }
+        if(flag==1) break;
+    }
+    if(flag==1) cout<<"NO";
+    else
+    {
+        for(char c : v) cout<<c<<endl;
+    }
+
+    return 0;
+}
