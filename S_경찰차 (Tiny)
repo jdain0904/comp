@@ -1,0 +1,50 @@
+/*
+두대 전부 해보면 됨(경찰차1, 경찰차 2, 거리합, 쿼리위치)
+*/
+#include <bits/stdc++.h>
+#define ll long long
+#define endl "\n"
+
+using namespace std;
+
+ll mn=INT_MAX;
+
+vector <pair<ll, ll>> v;
+
+ll dist(pair<ll, ll> a, pair<ll, ll> b){
+    return abs(a.first-b.first)+abs(a.second-b.second);
+}
+
+void f(pair<ll, ll> a, pair<ll, ll> b, ll sum, ll t){
+    if(t>=v.size()){
+        mn=min(mn, sum);
+        return;
+    }
+    pair<ll, ll> target=v[t];
+
+    if(target==a) f(a, b, sum, t+1);
+    else if(target==b) f(a, b, sum, t+1);
+    else {
+        f(target, b, dist(target, a)+sum, t+1);
+        f(a, target, dist(target, b)+sum, t+1);
+    }
+}
+
+int main()
+{
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+    ll n, w;
+
+    cin>>n>>w;
+    while(w--){
+        ll a, b;
+        cin>>a>>b;
+        v.push_back({a, b});
+    }
+    
+    f({1, 1}, {n, n}, 0, 0);
+    cout<<mn;
+    return 0;
+}
