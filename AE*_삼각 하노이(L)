@@ -8,7 +8,7 @@ g(n)=f(n-1)+h(n-1)+1;
 h(n)=2h(n-1)+2
 
 숫자크다고재귀안도는거너무맘아프다
-동빈아너는반복dp로 짜도록 해해
+여러분은반복dp로 짜도록 해요
 */
 #include <bits/stdc++.h>
 #define ll long long
