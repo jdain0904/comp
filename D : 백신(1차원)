@@ -1,0 +1,67 @@
+/*
+한 사람 기준으로 퍼져나가는 문제 = BFS
+1차원이니 최초 투여자 기준으로 양방향 BFS를 해주면 된다.
+visited 배열 :초기값은 INT_MAX
+visited[i]=min(visited[i], visited[i-1]+1) : 최단시간내에 면역 생기는 값을 저장한다.
+배열은 1 base로 하는게 편함
+*/
+#include <bits/stdc++.h>
+#define ll long long
+#define endl "\n"
+
+using namespace std;
+
+ll n, m;
+vector <ll> visited;
+queue <ll> q;
+
+void bfs(ll start)
+{
+    q.push(start);
+    visited[start]=1;
+
+    while(!q.empty()){
+        ll idx=q.front();
+        q.pop();
+
+        if(idx<n){
+
+            ll next=idx+1;
+            if(visited[next]>visited[idx]+1)
+            {
+                visited[next]=visited[idx]+1;
+                q.push(next);
+            }
+        }
+
+        if(idx>1){
+            ll next=idx-1;
+            if(visited[next]>visited[idx]+1)
+            {
+                visited[next]=visited[idx]+1;
+                q.push(next);
+            }
+        }
+    }
+}
+
+int main()
+{
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+
+    cin>>n>>m;
+    visited.resize(n+1, INT_MAX);
+
+    while(m--){
+        ll temp;
+        cin>>temp;
+        visited[temp]=1;
+        bfs(temp);
+    }
+
+    for(ll i=1; i<=n; i++) cout<<visited[i]<<' ';
+
+    return 0;
+}
