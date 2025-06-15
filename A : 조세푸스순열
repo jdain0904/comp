@@ -1,0 +1,43 @@
+/*
+쉽게 구하는 식이 있던 거 같긴 하지만
+문제 의도에 맞게 큐 이용함
+k번째 - pop
+k번재 아님 - pop 후 다시 push
+*/
+#include <bits/stdc++.h>
+#define ll long long
+#define endl "\n"
+
+using namespace std;
+
+ll n, k, idx=1;
+queue <ll> q;
+
+int main()
+{
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+
+    cin>>n>>k;
+
+    for(ll i=1; i<=n; i++){
+        q.push(i);
+    }
+
+    while(!q.empty())
+    {
+        ll next=q.front();
+        q.pop();
+        if(idx==k){
+            idx=1;
+            cout<<next<<' ';
+            continue;
+        }
+        q.push(next);
+        idx++;
+
+    }
+
+    return 0;
+}
