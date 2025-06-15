@@ -1,0 +1,32 @@
+/*
+단순 queue
+빼서 계산하고 넣는다
+1은 0번째 수임에 주의 
+*/
+#include <bits/stdc++.h>
+#define ll long long
+#define endl "\n"
+#define div 1000000007
+
+using namespace std;
+
+ll n, m, k;
+queue <ll> q;
+
+int main()
+{
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+    cin>>n>>m>>k;
+    q.push(1);
+
+    while(k--){
+        q.push(q.front()*n%div);
+        q.push(q.front()*m%div);
+        q.pop();
+    }
+    cout<<q.front()%div;
+
+    return 0;
+}
