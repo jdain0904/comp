@@ -7,11 +7,12 @@
 
 using namespace std;
 
-vector <char> v(30);
+vector <char> v;
+ll n;
 
 void pre(ll num)
 {
-    if(num>v.size()) return;
+    if(num>n) return;
     cout<<v[num]<<' ';
 
     pre(num*2);
@@ -24,7 +25,6 @@ int main()
     cin.tie(0);
     cout.tie(0);
 
-    ll n;
     cin>>n;
 
     v.resize(n+1);
