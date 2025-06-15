@@ -1,0 +1,39 @@
+/*
+왼쪽->오른쪽->출력
+*/
+#include <bits/stdc++.h>
+#define ll long long
+#define endl "\n"
+
+using namespace std;
+
+vector <char> v;
+ll n;
+string s;
+
+void post(ll num)
+{
+    if(num>n) return;
+    post(num*2);
+    post(num*2+1); 
+    cout<<v[num]<<' ';
+}
+
+
+int main()
+{
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+    
+    cin>>n;
+    v.resize(n+1);
+    cin>>s;
+    
+    for(ll i=0; i<n; i++){
+        v[i+1]=s[i];
+    }
+    post(1);
+    
+    return 0;
+}
