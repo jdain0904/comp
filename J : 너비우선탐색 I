@@ -1,0 +1,51 @@
+/*
+배열로 저장한 bfs : 입력 순서 고려 x
+*/
+#include <bits/stdc++.h>
+#define ll long long
+#define endl "\n"
+
+using namespace std;
+
+ll v[101][101];
+vector <ll> visited;
+ll n, m;
+
+void bfs(ll start)
+{
+    queue <ll> q;
+    q.push(start);
+
+    while(!q.empty()){
+        ll idx=q.front();
+        q.pop();
+
+        cout<<idx<<' ';
+
+        for(ll i=1; i<=n; i++){
+            if(v[idx][i]==1&&visited[i]==0){
+                visited[i]=1;
+                q.push(i);
+            }
+        }
+    }
+}
+int main()
+{
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+
+    cin>>n>>m;
+    visited.resize(n+1);
+    while(m--){
+        ll a, b;
+        cin>>a>>b;
+        v[a][b]=1;
+        v[b][a]=1;
+    }
+    visited[1]=1;
+    bfs(1);
+
+    return 0;
+}
