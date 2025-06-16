@@ -1,0 +1,73 @@
+/*
+vector dfs(v[i]에 {다음인덱스, 간선 값} 저장)
+일단 dfs 통해서 가능한 경로 구하고
+각 경로에서 -(한 간선 가중치/2)하며 모든 값을 저장
+정렬하여 k번째=문제에서 요구하는 답
+배열은 1base로 둠
+*/
+#include <bits/stdc++.h>
+#define ll long long
+#define endl "\n"
+
+using namespace std;
+
+vector <ll> visited,ans, route;
+vector<vector<pair<ll, ll>>> v;
+ll n, m, k;
+
+void calc(ll sum)
+{
+    for(ll cost :route)
+    {
+        ll discount=(cost/2)+(cost%2);
+        ans.push_back(sum-discount);
+    }
+}
+
+void dfs(ll num, ll sum)
+{
+    if(num==n)
+    {
+        calc(sum);
+        return;
+    }
+
+    for(ll i=0; i<v[num].size(); i++){
+        ll idx=v[num][i].first;
+        if(visited[idx]==0){
+            visited[idx]=1;
+            route.push_back(v[num][i].second);
+            dfs(idx, sum+v[num][i].second);
+            visited[idx]=0;
+            route.erase(route.end()-1);
+        }
+    }
+}
+
+int main()
+{
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+
+    cin>>n>>m>>k;
+    v.resize(n+1);
+    visited.resize(n+1);
+
+    for(ll i=0; i<m; i++){
+        ll a, b, c;
+        cin>>a>>b>>c;
+
+        v[a].push_back({b, c});
+        v[b].push_back({a, c});
+    }
+    visited[1]=1;
+
+    dfs(1, 0);
+
+    sort(ans.begin(), ans.end());
+    if(ans.size()<k) cout<<-1;
+    else cout<<ans[k-1];
+
+    return 0;
+}
