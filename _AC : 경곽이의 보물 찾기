@@ -1,0 +1,74 @@
+/*
+bfs 2회
+s->t, (visited 초기화), t->g;
+배열 사이즈는 (n+2)*(n+2) 로 잡는게 편리
+visited에 현재까지의 최단이동거리를 저장 (최단거리 bfs와 동일)
+visited[현재위치]>visited[이전위치]+1이면
+1. visited[현재위치]=visited[이전위치]+1
+2. queue에 현재위치 넣기
+*/
+#include <bits/stdc++.h>
+#define ll long long
+#define endl "\n"
+
+using namespace std;
+
+ll n;
+pair<ll, ll> s, t, g;
+vector <vector<char>>board;
+vector <vector<ll>>visited;
+
+ll dx[]={1, 0, -1, 0};
+ll dy[]={0, 1, 0, -1};
+ll bfs(pair<ll, ll> start, pair<ll, ll> fin)
+{
+    queue <pair<ll, ll>>q;
+    q.push(start);
+    visited[start.first][start.second]=0;
+
+    while(!q.empty())
+    {
+        ll y=q.front().first;
+        ll x=q.front().second;
+        q.pop();
+        if(make_pair(y, x)==fin)return visited[y][x];
+
+        for(ll i=0; i<4; i++){
+            ll ny=y+dy[i];
+            ll nx=x+dx[i];
+
+            if(visited[ny][nx]>visited[y][x]+1&&board[ny][nx]!='#')
+            {
+                visited[ny][nx]=visited[y][x]+1;
+                q.push({ny, nx});
+            }
+        }
+    }
+}
+
+int main()
+{
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+
+    cin>>n;
+    board.resize(n+2, vector<char>(n+2, '#'));
+    visited.resize(n+2, vector<ll>(n+2, INT_MAX));
+
+    for(ll i=1; i<=n; i++){
+        for(ll j=1; j<=n; j++){
+            cin>>board[i][j];
+            if(board[i][j]=='S')s={i, j};
+            if(board[i][j]=='T')t={i, j};
+            if(board[i][j]=='G')g={i, j};
+        }
+    }
+
+    ll temp=bfs(s, t);
+    visited.clear();
+    visited.resize(n+2, vector<ll>(n+2, INT_MAX));
+    cout<<temp+bfs(t, g);
+
+    return 0;
+}
