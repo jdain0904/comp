@@ -1,0 +1,46 @@
+/*
+후위순열이 2가지 나오는 경우는 없음
+전위 순회 첫번째 알파벳 기준으로 중위순회 자르기
+->왼쪽 자식 트리 중위순회 / 오른쪽 자식 트리 중위 순회가 됨
+이때 전위 순회의 첫번째 알파벳 :후위 순회의 (왼쪽 트리 크기(+오른쪽 트리 크기(오른쪽이라면)) 번째
+예전에 누가 어려운 문제 정리해줬던 노션 보는게 이해하기 좋다.
+*/
+#include <bits/stdc++.h>
+#define ll long long
+#define endl "\n"
+
+using namespace std;
+
+string pre, in;
+vector <ll> convert(100);
+vector <char> post(100);
+
+void f(ll ins, ll ine, ll pres, ll pree, ll l)
+{
+    if(ine<ins||pree<pres) return;
+    ll node=convert[pre[pres]-'A'];
+    ll left=node-ins;
+    ll right=ine-node;
+
+    post[l+ine-ins]=pre[pres];
+
+    f(ins, node-1, pres+1, pree-right, l);
+    f(node+1, ine, pres+left+1, pree, l+left);
+}
+
+int main()
+{
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+
+    cin>>in>>pre;
+
+    for(ll i=0; i<in.size(); i++) convert[int(in[i]-'A')]=i;
+
+    f(0, in.size()-1, 0, pre.size()-1, 0);
+
+    for(char c:post) cout<<c;
+
+    return 0;
+}
