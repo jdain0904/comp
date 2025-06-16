@@ -1,0 +1,56 @@
+/*
+queue에서 생각 가능(queue의 size=채워야 하는 자식 수)
+자식 2개->자식1개->자식 0개 순으로 순차적으로 채운게 최소높이
+높이 h에서 자식 n개 필요하면 (h+1)을 n회 push
+자식을 한 노드가 차지하면 pop
+q.empty() == 구성 가능
+*/
+#include <bits/stdc++.h>
+#define ll long long
+#define endl "\n"
+
+using namespace std;
+
+ll n, m, k, ans, flag;
+queue <ll> q;
+
+int main()
+{
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+
+    cin>>n>>m>>k;
+    q.push(0);
+
+    while(n!=0||m!=0||k!=0){
+        if(q.empty()){
+            flag=1;
+            break;
+        }
+    //cout<<q.front()<<' '<<q.size()<<endl;
+        ans=max(ans, q.front());
+        if(n!=0){
+            n--;
+            ll temp=q.front()+1;
+            q.pop();
+            q.push(temp);
+            q.push(temp);
+        }
+        else if(m!=0){
+            m--;
+            ll temp=q.front()+1;
+            q.pop();
+            q.push(temp);
+        }
+        else{
+            k--;
+            q.pop();
+        }
+    }
+    if(!q.empty()) flag=1;
+    if(flag==1) cout<<"impossible.";
+    else cout<<ans;
+
+    return 0;
+}
