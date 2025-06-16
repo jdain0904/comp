@@ -1,0 +1,56 @@
+/*
+시간이 1씩 흐를때 각 창구의 상태 보고 판단
+(n, m, a_i) 전부 작아서 가능함.
+*/
+#include <bits/stdc++.h>
+#define ll long long
+#define endl "\n"
+
+using namespace std;
+
+ll n, m, t;
+vector <ll> cus, service;
+queue <ll> q[100];
+
+int main()
+{
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+
+    cin>>n>>m;
+    service.resize(n);
+
+    while(m--){
+        ll temp;
+        cin>>temp;
+        cus.push_back(temp);
+    }
+
+    for(ll i=0; i<cus.size(); i++){
+        ll flag=0;
+        while(1){
+                for(ll j=0; j<service.size(); j++){
+                    if(service[j]<=t)
+                    {
+                        service[j]+=cus[i];
+                        q[j].push(i+1);
+                        flag=1;
+                        break;
+                    }
+                }
+                if(flag==1) break;
+               t++;
+        }
+    }
+
+    for(ll i=0; i<n; i++){
+        while(!q[i].empty()){
+            cout<<q[i].front()<<' ';
+            q[i].pop();
+        }
+        cout<<endl;
+    }
+
+    return 0;
+}
