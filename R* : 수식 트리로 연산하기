@@ -1,0 +1,90 @@
+/*
+중위순회 :2n 이동할 때 ( 출력, 2n+1 이동할 때 ) 출력
+
+후위 순회 = 후위 표현식
+후위 표현식으로 계산하면됨
+
+입력방법 외우기...!
+*/
+#include <bits/stdc++.h>
+#define ll long long
+#define endl "\n"
+
+using namespace std;
+
+vector <string> v;
+stack <ll> stk;
+ll ans;
+
+void mid(ll num)
+{
+    if(num*2<v.size()) {
+        cout<<"(";
+        mid(num*2);
+    }
+    cout<<v[num];
+    if(num*2+1<v.size()) {
+      mid(num*2+1);
+      cout<<")";
+    }
+}
+
+void post(ll num)
+{
+    if(num>=v.size()) return;
+    post(num*2);
+    post(num*2+1);
+    cout<<v[num]<<' ';
+
+    string c=v[num];
+    if(c=="+"){
+        ll a=stk.top();
+        stk.pop();
+        ll b=stk.top();
+        stk.pop();
+        stk.push(a+b);
+    }
+
+    else if(c=="-"){
+        ll b=stk.top();
+        stk.pop();
+        ll a=stk.top();
+        stk.pop();
+        stk.push(a-b);
+    }
+    else if(c=="*"){
+        ll a=stk.top();
+        stk.pop();
+        ll b=stk.top();
+        stk.pop();
+        stk.push(a*b);
+    }
+    else if(c=="/"){
+        ll b=stk.top();
+        stk.pop();
+        ll a=stk.top();
+        stk.pop();
+        stk.push(a/b);
+    }
+    else
+    {
+        stk.push(stoi(c));
+    }
+}
+
+int main()
+{
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+
+    v.push_back("");
+string s; while(cin >> s) v.push_back(s);
+
+    mid(1);
+    cout<<endl;
+    post(1);
+    cout<<endl<<stk.top();
+
+    return 0;
+}
