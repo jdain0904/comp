@@ -1,0 +1,72 @@
+/*
+배열은 1base가 편함
+8방향 bfs(dx, dy 설정 잘하기)
+이동할 수 있는 위치가 0일 때까지 bfs를 끝까지 돌리고 visited 출력
+visited 초기값 : INT_MAX
+visited[현재위치]>visited[이전위치]+1이면
+1. visited[현재위치]=visited[이전위치]+1
+2. queue에 현재위치 push
+*/
+#include <bits/stdc++.h>
+#define ll long long
+#define endl "\n"
+
+using namespace std;
+
+ll n, m;
+vector<vector<ll>> visited;
+pair<ll, ll> s;
+
+ll dx[8]={1, 2, 2, 1, -1, -2, -2, -1};
+ll dy[8]={2, 1, -1, -2, -2, -1, 1, 2};
+
+void bfs()
+{
+    queue <pair<ll, ll>> q;
+
+    q.push(s);
+
+    while(!q.empty()){
+        ll y=q.front().first;
+        ll x=q.front().second;
+        q.pop();
+
+        for(ll i=0; i<8; i++){
+            ll ny=y+dy[i];
+            ll nx=x+dx[i];
+
+            if(ny>n||nx>m||ny<1||nx<1) continue;
+
+            if(visited[ny][nx]>visited[y][x]+1){
+                visited[ny][nx]=visited[y][x]+1;
+                q.push({ny, nx});
+            }
+        }
+    }
+}
+
+int main()
+{
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+
+    cin>>n>>m;
+    visited.resize(n+1, vector<ll>(m+1, INT_MAX));
+
+    cin>>s.first>>s.second;
+
+    visited[s.first][s.second]=0;
+    bfs();
+
+    for(ll i=1; i<=n; i++){
+        for(ll j=1; j<=m; j++){
+            if(visited[i][j]==INT_MAX) cout<<-1;
+            else cout<<visited[i][j];
+            cout<<" ";
+        }
+        cout<<endl;
+    }
+
+    return 0;
+}
