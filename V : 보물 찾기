@@ -1,0 +1,45 @@
+/*
+갈림길-통로 이어지게 벡터에 저장하고
+도착지점부터 역추적
+*/
+#include <bits/stdc++.h>
+#define ll long long
+#define endl "\n"
+
+using namespace std;
+
+vector<ll> v(5001);
+stack <ll> ans;
+ll p, ns, t;
+ll cur, cnt;
+
+int main()
+{
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+
+    cin>>p>>ns>>t;
+
+    while(ns--){
+            ll a, b, c;
+        cin>>a>>b>>c;
+        v[b]=a;
+        v[c]=a;
+    }
+
+   cur=t;
+    ans.push(cur);
+    while(cur!=1){
+        cur=v[cur];
+        ans.push(cur);
+    }
+    cout<<ans.size()<<endl;
+    while(!ans.empty())
+    {
+        cout<<ans.top()<<endl;
+        ans.pop();
+    }
+
+    return 0;
+}
