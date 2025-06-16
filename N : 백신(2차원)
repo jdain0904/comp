@@ -1,0 +1,72 @@
+/*
+백신 최초 투여자 기준으로 2차원 bfs 돌리면됨
+상하좌우 4방향으로 탐색
+visited 초기화 : INT_MAX(1 base로 하는게 편함)
+visited[i]<visited[이전 인덱스]+1 이라면
+1. visited[i]=visited[이전 인덱스]+1
+2. i를 queue에 넣어 다시 탐색 진행
+
+*/
+#include <bits/stdc++.h>
+#define ll long long
+#define endl "\n"
+
+using namespace std;
+
+
+vector <vector<ll>> visited;
+ll n, m, k;
+ll dx[]={1, 0, -1, 0};
+ll dy[]={0, 1, 0, -1};
+
+void bfs(ll y, ll x)
+{
+    queue <pair<ll, ll>> q;
+    q.push({y, x});
+
+    while(!q.empty()){
+        ll yy=q.front().first;
+        ll xx=q.front().second;
+        q.pop();
+
+
+
+        for(ll i=0; i<4; i++){
+            ll ny=yy+dy[i];
+            ll nx=xx+dx[i];
+            if(ny>n||nx>m||ny<=0||nx<=0) continue;
+            if(visited[ny][nx]>visited[yy][xx]+1){
+                visited[ny][nx]=visited[yy][xx]+1;
+                q.push({ny, nx});
+            }
+        }
+    }
+}
+
+int main()
+{
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+
+    cin>>n>>m>>k;
+
+    visited.resize(n+1, vector<ll>(m+1, INT_MAX));
+
+    while(k--){
+        ll x, y;
+        cin>>y>>x;
+        visited[y][x]=1;
+
+        bfs(y, x);
+    }
+
+    for(ll i=1; i<=n; i++){
+        for(ll j=1; j<=m; j++){
+            cout<<visited[i][j]<<' ';
+        }
+        cout<<endl;
+    }
+
+    return 0;
+}
