@@ -1,0 +1,63 @@
+/*
+올림 고려되는 다이얼이니 +1, +10, +100, +1000하고 %10000한다 생각
+visited[10000]짜리 bfs라 생각하면 됨
+각 visited 인덱스에 해당 번호 방문여부 들어감
+visited[현재]>visited[이전]+1이면
+visited[현재]=visited[이전]+1
+queue.push(현재)
+*/
+#include <bits/stdc++.h>
+#define ll long long
+#define endl "\n"
+
+using namespace std;
+
+ll s, f, n;
+set <ll> ban;
+vector <ll> visited(10000, INT_MAX);
+ll d[8]={1, 10, 100, 1000, -1, -10, -100, -1000};
+
+void bfs()
+{
+    queue <ll> q;
+    q.push(s);
+
+    while(!q.empty()){
+        ll idx=q.front();
+        q.pop();
+        if(!ban.empty()&&ban.find(idx)!=ban.end()) continue;
+        if(idx==f){
+            cout<<visited[idx];
+            return;
+        }
+
+        for(ll i=0; i<8; i++)
+        {
+            ll next=(idx+d[i]+10000)%10000;
+            if(visited[next]>visited[idx]+1)
+            {
+                visited[next]=visited[idx]+1;
+                q.push(next);
+            }
+        }
+    }
+}
+
+int main()
+{
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+
+    cin>>s>>f>>n;
+    while(n--){
+        ll temp;
+        cin>>temp;
+        ban.insert(temp);
+    }
+
+    visited[s]=0;
+    bfs();
+
+    return 0;
+}
