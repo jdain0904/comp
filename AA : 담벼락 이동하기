@@ -1,0 +1,54 @@
+/*
+dfs 통해 목표지점에 도달하는 가짓수 구함
+위/오른쪽으로만 가기 때문에 visited 없어도 중복 x
+홀수 높이 : (x-1, y+1), (x, y+1), (x+1, y)
+짝수 높이 :(x+1, y+1), (x, y+1), (x+1, y)
+*/
+#include <bits/stdc++.h>
+#define ll long long
+#define endl "\n"
+
+using namespace std;
+
+ll w, h, cnt;
+pair<ll, ll> s, f;
+
+void dfs(pair<ll, ll> cur)
+{
+    if(f.second<cur.second) return;
+    if(cur.first<=0) return;
+    if(cur.second%2==1&&cur.first>w) return;
+    if(cur.second%2==0&&cur.first>=w) return;
+
+    if(cur==f)
+    {
+        cnt++;
+        return;
+    }
+
+    if(cur.second%2==0) {
+        dfs({cur.first+1, cur.second+1});
+        dfs({cur.first, cur.second+1});
+        dfs({cur.first+1, cur.second});
+    }
+    else {
+        dfs({cur.first-1, cur.second+1});
+        dfs({cur.first, cur.second+1});
+        dfs({cur.first+1, cur.second});
+    }
+}
+
+int main()
+{
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+
+    cin>>w>>h;
+    cin>>s.first>>s.second>>f.first>>f.second;
+
+    dfs(s);
+    cout<<cnt;
+
+    return 0;
+}
