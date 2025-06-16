@@ -1,0 +1,36 @@
+/*
+높이=h일때부터 h 감소시키며 탐색
+높이 h일대 루트노드 탐색순서 : 2^h번째
+탐색번호가 이거보다 작으면 왼쪽, 크면 오른쪽 서브트리 확인
+
+if(n<temp) return f(n, h-1, num*2);
+    else if(n==temp) return num;
+    else return f(n-temp, h-1, num*2+1);
+*/
+#include <bits/stdc++.h>
+#define ll long long
+#define endl "\n"
+
+using namespace std;
+
+ll f(ll n, ll h, ll num)
+{
+    ll temp=1;
+    for(ll i=0; i<h; i++) temp*=2;
+    if(n<temp) return f(n, h-1, num*2);
+    else if(n==temp) return num;
+    else return f(n-temp, h-1, num*2+1);
+}
+
+int main()
+{
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+    ll h, n;
+    cin>>h>>n;
+
+    cout<<f(n, h, 1);
+
+    return 0;
+}
