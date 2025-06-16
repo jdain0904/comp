@@ -1,0 +1,76 @@
+/*
+입력이 w*h임에 주의
+배열 전체 탐색하며 모든 visited=0인데 *인 부분에서 bfs
+bfs :인접한 부분 전체탐색, *넓이 카운트
+두더지굴과 똑같은 문제 (모든 값 구하던 두더지굴과 달리 최대값 구하는거일 뿐)
+배열은 (h+2)(w+2)로 잡음 (0, n+1 도달해도 인덱스 초과되지 않기 때문에 runtime error x: 별다른 예외처리 없이 진행가능)
+*/
+#include <bits/stdc++.h>
+#define ll long long
+#define endl "\n"
+
+using namespace std;
+
+ll h, w, mx;
+pair <ll, ll> st;
+ll dy[]={1, 0, -1, 0};
+ll dx[]={0, 1, 0, -1};
+vector<vector<char>> board;
+vector<vector<ll>> visited;
+
+void bfs()
+{
+    ll cnt=0;
+    queue <pair<ll, ll>> q;
+    q.push(st);
+
+    while(!q.empty()){
+        ll y=q.front().first;
+        ll x=q.front().second;
+        q.pop();
+        for(ll i=0; i<4; i++){
+            ll ny=y+dy[i];
+            ll nx=x+dx[i];
+
+            if(board[ny][nx]=='*'&&visited[ny][nx]==0){
+                visited[ny][nx]=1;
+                q.push({ny, nx});
+            }
+        }
+        cnt++;
+    }
+    mx=max(mx, cnt);
+}
+
+int main()
+{
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+    cin>>w>>h;
+    board.resize(h+2, vector<char> (w+2, '.'));
+    visited.resize(h+2, vector<ll>(w+2));
+
+    for(ll i=1; i<=h; i++){
+
+        for(ll j=1; j<=w; j++){
+            cin>>board[i][j];
+        }
+    }
+
+    for(ll i=1; i<=h; i++){
+        for(ll j=1; j<=w; j++){
+            if(visited[i][j]==0&&board[i][j]=='*'){
+                visited[i][j]=1;
+                st={i, j};
+                bfs();
+            }
+        }
+    }
+
+    cout<<mx;
+
+    
+
+    return 0;
+}
