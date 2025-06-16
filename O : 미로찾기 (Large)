@@ -1,0 +1,74 @@
+/*
+2차원BFS를 돌린다. (앞에 벽이 아닐 때&&visited=0일 때만 진행)
+visited=이전 visited+1(이동횟수 저장)
+BFS 특성상 가장 먼저 G에 도달할 때가 최단거리임
+(모든 방향으로 퍼져나가며 탐색하기 때문)
+
+board에서 벽인 부분을 visited에서 미리 1로 처리하면
+visited배열 만으로도 bfs 돌릴 수 있을 것 같긴 하지만,
+일단 일반적인 방법으로 풀었다.
+배열은 1base로 하는게 편함
+*/
+#include <bits/stdc++.h>
+#define ll long long
+#define endl "\n"
+
+using namespace std;
+
+vector <vector<char>> board;
+vector <vector<ll>> visited;
+ll h, w;
+pair <ll, ll> s, g;
+
+ll dx[]={1, 0, -1, 0};
+ll dy[]={0, 1, 0, -1};
+
+void bfs()
+{
+    queue <pair<ll, ll>> q;
+    q.push(s);
+
+    while(!q.empty()){
+        ll y=q.front().first;
+        ll x=q.front().second;
+        q.pop();
+        if(make_pair(y, x)==g) {
+            cout<<visited[y][x];
+            return;
+        }
+
+        for(ll i=0; i<4; i++){
+            ll ny=y+dy[i];
+            ll nx=x+dx[i];
+            if(ny<=0||nx<=0||ny>h||nx>w) continue;
+
+            if(board[ny][nx]!='#'&&visited[ny][nx]==0){
+                visited[ny][nx]=visited[y][x]+1;
+                q.push({ny, nx});
+            }
+        }
+    }
+}
+
+int main()
+{
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+
+    cin>>h>>w;
+
+    board.resize(h+1, vector<char>(w+1, '#'));
+    visited.resize(h+1, vector<ll>(w+1));
+
+    for(ll i=1; i<=h; i++){
+        for(ll j=1; j<=w; j++){
+            cin>>board[i][j];
+            if(board[i][j]=='S') s={i, j};
+            else if(board[i][j]=='G') g={i, j};
+        }
+    }
+    bfs();
+
+    return 0;
+}
