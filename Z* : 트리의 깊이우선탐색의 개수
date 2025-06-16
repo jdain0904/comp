@@ -1,0 +1,49 @@
+/*
+모든 노드에 대해 (자식노드 수)! 곱한 게 최대값
+자식노드 = 간선수-1
+*/
+#include <bits/stdc++.h>
+#define ll long long
+#define endl "\n"
+#define div 998244353
+
+using namespace std;
+
+ll n, ans=1;
+vector<ll> v;
+ll dp[500000];
+
+ll fac(ll num)
+{
+    if(num<=1) return 1;
+    if(dp[num]!=0) return dp[num];
+    return dp[num]=(num*fac(num-1))%div;
+}
+
+int main()
+{
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+
+    cin>>n;
+    v.resize(n+1);
+
+    for(ll i=1; i<n; i++){
+        ll a, b;
+        cin>>a>>b;
+        if(a>b) swap(a, b);
+        v[a]++;
+    }
+
+
+
+    for(ll i=1; i<=n; i++){
+        if(i==1) ans*=fac(v[i]);
+        else ans*=fac(v[i]);
+        ans%=div;
+    }
+    cout<<ans;
+
+    return 0;
+}
