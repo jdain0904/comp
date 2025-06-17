@@ -1,9 +1,7 @@
-/*
-
-*/
 #include <bits/stdc++.h>
 #define ll long long
 #define endl "\n"
+#define pp pair<ll, ll>
 
 using namespace std;
 
