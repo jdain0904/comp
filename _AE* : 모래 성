@@ -27,21 +27,24 @@ void bfs()
 
         while(!cur.empty())
         {
-            
             ll y=cur.front().first;
             ll x=cur.front().second;
             cur.pop();
+            //cout<<y<<' '<<x<<endl;
 
             for(ll i=0; i<8; i++){
                 ll nx=x+dx[i];
                 ll ny=y+dy[i];
 
                 if(board[ny][nx]!=-1&&board[ny][nx]<=++cnt[ny][nx]){
+
+                //   cout<<nx<<' '<<ny<<' '<<board[ny][nx]<<cnt[ny][nx]<<endl;
                     board[ny][nx]=-1;
                     q.push({ny, nx});
                 }
             }
         }
+
     }
 }
 
@@ -53,7 +56,7 @@ int main()
 
     cin>>h>>w;
     board.resize(h+2, vector<ll>(w+2, -1));
-    cnt.resize(h+2, vector<ll>(w+2, -1));
+    cnt.resize(h+2, vector<ll>(w+2, 0));
 
     for(ll i=1; i<=h; i++)
     {
@@ -91,7 +94,7 @@ int main()
     {
         for(ll j=1; j<=w; j++)
         {
-            if(board[i][j]<=cnt[i][j]){
+            if(board[i][j]!=-1&&board[i][j]<=cnt[i][j]){
                 board[i][j]=-1;
                 q.push({i, j});
             }
