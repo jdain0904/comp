@@ -1,0 +1,66 @@
+/*
+트리의 서브 트리가 1개인 경우, 루트의 오른쪽/왼쪽 구분할 수 없어 중위순회가 2가지 나온다.
+그러니 서브트리 1개인 노드  찾고 그 수만큼 *2^n하면 됨
+
+서브트리 1개인 트리의 특징
+전위 순회의 2번째 값, 후위 순회의 n-1번째 값이 동일함
+
+전위 순회의 2번째 값을 후위순회에서 찾으면 그 위치 기준으로 왼/오 서브트리로 나눌수 있음
+    전위 순회의 2번째 값 = 왼쪽 서브트리의 루트노드이고 후위순회에서는 왼쪽 서브트리 다 돌고 나서 이 루트노드에 갔다가-진짜 루트노드(왼/오 서브트리의 루트) 갔다가-오른쪽 서브트리 진입하기 때문에 성립함
+    (그림그려보면 쉽다)
+*/
+#include <bits/stdc++.h>
+#define ll long long
+#define endl "\n"
+
+using namespace std;
+
+ll n;
+vector <ll> pre, post, convert(100001);
+ll ans=1;
+
+void f(ll pres, ll pree, ll posts, ll poste)
+{
+    if(pres>=pree||posts>=poste) return;
+
+    if(pre[pres+1]==post[poste-1])
+    {
+        ans*=2;
+        f(pres+1, pree, posts, poste-1);
+    }
+    else{
+        ll idx=convert[pre[pres+1]];
+        f(pres+1, pres+idx-posts+1, posts, idx);
+        f(pres+idx-posts+2, pree, idx+1, poste-1);
+    }
+}
+
+int main()
+{
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+
+    cin>>n;
+    
+    pre.resize(100001);
+    post.resize(100001);
+    for(ll i=0; i<n; i++)
+    {
+        ll temp;
+        cin>>temp;
+        pre[i]=temp;
+    }
+    for(ll i=0; i<n; i++)
+    {
+        ll temp;
+        cin>>temp;
+        post[i]=temp;
+        convert[temp]=i;
+    }
+
+    f(0, n-1, 0, n-1);
+    cout<<ans;
+
+    return 0;
+}
