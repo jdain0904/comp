@@ -1,0 +1,69 @@
+/*
+갈 수 있는 최대 위치 범위 :401x401
+체스 말 위치가 어디에 주어지더라도 그냥 check 배열의 [202][202](정가운데) 위치에 있다고 생각한다
+위치 값이 기존 판 경계를 넘는 경우는 따로 고려해줘야함(그래서 처음에 주어진 위치값을 저장해두어야 한다 =stx, sty)
+기우성 :홀/짝 번째에 도달한 위치는 홀/짝번째에 반드시 갈 수 있다.
+해당 칸에 간 적이 있는지 check에 저장
+*/
+#include <bits/stdc++.h>
+#define ll long long
+#define endl "\n"
+
+using namespace std;
+
+ll n, m, k, stx, sty, cnt;
+pair <ll, ll> st;
+vector<vector<vector<ll>>> check(405, vector<vector<ll>>(405, vector<ll>(2, INT_MAX)));
+ll dx[]={1, 2, 2, 1, -1, -2, -2, -1};
+ll dy[]={2, 1, -1, -2, -2, -1, 1, 2};
+
+void bfs()
+{
+    queue <pair<ll, pair<ll, ll>>> q;
+    q.push({st.first, {st.second, 0}});
+
+    while(!q.empty())
+    {
+
+        ll y=q.front().first;
+        ll x=q.front().second.first;
+        ll res=q.front().second.second;
+        ll oddity=(res+1)%2;
+        q.pop();
+
+        if(res==k) return;
+
+        for(ll i=0; i<8; i++)
+        {
+
+            ll nx=dx[i]+x;
+            ll ny=dy[i]+y;
+         
+
+            if(sty+(ny-202)>n||sty+(ny-202)<1||stx+(nx-202)>m||stx+(nx-202)<1) continue;
+            if(check[ny][nx][oddity]==INT_MAX){
+                if(oddity==k%2) cnt++;
+                check[ny][nx][oddity]=1;
+                q.push({ny, {nx, res+1}});
+            }
+        }
+    }
+}
+
+int main()
+{
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+
+    cin>>n>>m>>sty>>stx>>k;
+    st={202, 202};
+
+    bfs();
+
+
+
+    cout<<n*m-cnt;
+
+    return 0;
+}
