@@ -1,0 +1,84 @@
+/*
+마지막으로 건넌 동물은 반드시 도착지점에 흔적 남음
+도착지점 기준으로 인접한 모든 동일 알파벳을 반대 종류 알파벳(F<->R)로 바꾸기
+(두더지굴 BFS와 형식 동일, 이번에는 visited배열 대신 board 자체 값을 바꾸면 됨)
+눈밭의 모든 발자국이 하나의 알파벳으로 통일되면
+답=그때까지 집계된 발자국 수 +1(통일된 발자국 주인)
+*/
+#include <bits/stdc++.h>
+#define ll long long
+#define endl "\n"
+
+using namespace std;
+
+ll h, w, cnt;
+vector<vector<char>> board;
+map <char, char> trans={{'F', 'R'}, {'R', 'F'}};
+ll dx[]={1, 0, -1, 0};
+ll dy[]={0, 1, 0, -1};
+
+bool check(char type)
+{
+    for(ll i=1; i<=h; i++){
+        for(ll j=1; j<=w; j++)
+        {
+            if(board[i][j]==trans[type]) return false;
+        }
+    }
+    return true;
+}
+
+void bfs(char type)
+{
+    cnt++;
+    queue <pair<ll, ll>>q;
+    q.push({h, w});
+
+    while(!q.empty())
+    {
+        ll y=q.front().first;
+        ll x=q.front().second;
+        board[y][x]=trans[type];
+
+        q.pop();
+
+        for(ll i=0; i<4; i++)
+        {
+            ll ny=y+dy[i];
+            ll nx=x+dx[i];
+            if(board[ny][nx]==type)
+            {
+                q.push({ny, nx});
+                board[ny][nx]=trans[type];
+            }
+        }
+
+    }
+    if(check(trans[type]))
+    {
+        cout<<cnt+1;
+        return;
+    }
+    else bfs(trans[type]);
+}
+
+int main()
+{
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+
+    cin>>h>>w;
+    board.resize(h+2, vector<char>(w+2));
+
+    for(ll i=1; i<=h; i++)
+    {
+        for(ll j=1; j<=w; j++){
+            cin>>board[i][j];
+        }
+    }
+
+    bfs(board[h][w]);
+
+    return 0;
+}
