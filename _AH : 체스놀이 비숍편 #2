@@ -1,0 +1,87 @@
+/*
+비숍은 기우성 같은 칸만 이동가능 - 기우성 다르면 -1 출력후 끝
+기우성 같으면 대각선(칸의 합이 같거나 차가 같음)이라면 1회만에, 아니라면 2회만에 목표도달가능
+3!=6가지 경우의수 전부 시행
+*/
+#include <bits/stdc++.h>
+#define ll long long
+#define endl "\n"
+
+using namespace std;
+
+ll t;
+ll mn;
+
+bool oneline(pair<ll, ll> bish, pair <ll, ll> target)
+{
+    if(bish.first+bish.second==target.first+target.second||bish.first-bish.second==target.first-target.second) return true;
+    return false;
+}
+
+void solve(pair<ll,ll> bish, pair<ll, ll> one, pair<ll, ll> two, pair<ll, ll> three)
+{
+    ll cnt=0;
+    pair<ll, ll>target=one;
+    if(oneline(bish, target)) cnt++;
+    else cnt+=2;
+
+    bish=one;
+ target=two;
+    if(oneline(bish, target)) cnt++;
+    else cnt+=2;
+    bish=two;
+   target=three;
+    if(oneline(bish, target)) cnt++;
+    else cnt+=2;
+
+    mn=min(mn, cnt);
+}
+
+int main()
+{
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+
+    cin>>t;
+
+    while(t--)
+    {
+        pair<ll, ll> bish;
+        mn=INT_MAX;
+        vector<pair<ll, ll>> v;
+        ll oddity=0, flag=0;
+
+        for(ll i=1; i<=8; i++){
+            for(ll j=1; j<=8; j++){
+                char c;
+                cin>>c;
+                if(c=='B') {
+                    bish={i, j};
+                    oddity=(i+j)%2;
+                }
+
+                else if(c=='T') v.push_back({i, j});
+            }
+        }
+
+        for(ll i=0; i<3; i++){
+            if((v[i].first+v[i].second)%2!=oddity) {
+                cout<<-1<<endl;
+                flag=1;
+                break;
+            }
+        }
+        if(flag==1) continue;
+
+        solve(bish, v[0], v[1], v[2]);
+        solve(bish, v[0], v[2], v[1]);
+        solve(bish, v[1], v[0], v[2]);
+        solve(bish, v[1], v[2], v[0]);
+        solve(bish, v[2], v[0], v[1]);
+        solve(bish, v[2], v[1], v[0]);
+        cout<<mn<<endl;
+    }
+
+    return 0;
+}
