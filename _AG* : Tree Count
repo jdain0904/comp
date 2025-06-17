@@ -1,0 +1,42 @@
+/*
+dp[i][j] : 노드 i개 가지면서 높이가 j이하인 트리 수
+dp[i][j]=sum(dp[i-a-1][j-1]*dp[a][j-1])
+(설명) 높이 j-1 이하인 두 트리를 서브 트리로 두면 높이 j 이하인 트리가 됨
+(왼쪽 서브트리 가짓수 * 오른쪽 서브트리 가짓수)
+출력할 때는 높이 j인 트리 '만' 출력해야 하는데 dp배열은 높이 j '이하'이니
+dp[i][j]-dp[i][j-1]를 출력해주어야 한다.
+*/
+#include <bits/stdc++.h>
+#define ll long long
+#define endl "\n"
+#define div 9901
+
+using namespace std;
+
+vector <vector<ll>>dp(201, vector<ll>(201));
+ll n, k;
+int main()
+{
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+    cin>>n>>k;
+
+    for(ll i=1; i<=200; i++){
+        dp[1][i]=1;
+    }
+
+    for(ll i=3; i<=n; i++)
+    {
+        for(ll j=2; j<=k; j++){
+            for(ll a=1; a<i-1; a++){
+                dp[i][j]+=dp[i-a-1][j-1]*dp[a][j-1];
+            }
+            dp[i][j]%=div;
+        }
+
+    }
+    cout<<(div+dp[n][k]-dp[n][k-1])%div;
+
+    return 0;
+}
